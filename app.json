@@ -2,12 +2,12 @@
   "expo": {
     "name": "ingabo_mobile_app",
     "slug": "ingabo_mobile_app",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "version": "1.2.0",
+    "orientation": "default",
+    "icon": "./assets/main-logo1.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/main-logo1.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -21,10 +21,12 @@
       "supportsTablet": true
     },
     "android": {
+      "versionCode": 4,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/main-logo1.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "package": "com.muhozagustave1213.ingabo_mobile_app"
     },
     "web": {
       "favicon": "./assets/favicon.png"

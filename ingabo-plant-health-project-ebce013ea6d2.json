@@ -1,0 +1,12 @@
+{
+  "type": "service_account",
+  "project_id": "ingabo-plant-health-project",
+  "private_key_id": "ebce013ea6d2718eeb0e21bb0bfd9868333c17d1",
+  "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQChJJN0t5RfZqOh\nXjuaXBHcaecqJpO2cWj9wU5I1oN60VSbITwN93YAXqEi5UeZj7JDn+3Rq1yAp/F/\nSGwD3Af5iyLEnuM6De/gDkOWwSBzcxOXZ3W9f2CfrlJAQuIMLmCX0vttIFv6boog\nraQVBrY6m7V47uYL9IANgzL5910mWp9QilXOZ7OyqO0/AGTSC8N/1qsmJYKNtO8W\n8b4hCfVToooHTxz/GbdEdvMHnvK/qakOXdvOEZm1JT/oLX1nA2EHt/mcD8vyoLEo\n5lf8kKd3N7sjBQ/dh+5kM9HsQEIsWmwlwGNMU+ZUvCh9la3s9HyODbKVD8K/Af5D\nRujMz4BRAgMBAAECggEADYmRawcXy41HhoFFx+mfhSvPGWcU67PKr96zIUKxgvoz\nqGCkt0D9xHmEAfbPCriGr6WviKNjvwSHhjuNpM6xoNDZLTlyj2hSVDlT4PCn4EBf\npKLdbPusILNirOFcNM0Z8kdC4LUM5RSvkp/jyUcUvLG4uh3KbQtaTUhOBQU3Pxx7\nBUVWo+SO3eG+N/iYm3f9DTqNZ/vOYSJW+feYNypiXxF4LKNtomrEzoMdLyfXV8Kz\n0wVuvUydmxIKMr5ZbbysuG+QKLxvfVtKkwL9yRrQ9E4y2PJdGYZL9mODQn8v/Rdx\nLZJVgpkLOJhDVOZY9kInIhT1Yv70NCKzBH60acunvQKBgQDV29ol68u3LNjDY3lv\nDAJgq2QXxrQ16rQp4m3HilWf0QudluWQN5RHbsHVAcWCsp/+XDQU3eKAYdjXbnp5\n1hv/NdKPZjpKZJY9u1WADpiEfvNcr5JMpyZGgUrQDXfyoJu22+YSZKCvEDHR9ji/\nQypJgQ0ADVfZyP4XzcPBJ0s1zwKBgQDA5XWG2xk3KqpDadlreKsEsXgEcgge2twQ\nKRDngO5ibk77CMmpxSGQsgwswAJFNtZCgf7LIq3m8786o413huL1haCCREBosDYR\nnTMRPbcxOS+fug2BFSX2GCil1e1YwUJUhsWTBxtNI21XqwqjVwzEBOxjHUz4zAhP\ndPuWeTOP3wKBgEsBDXRpS4xV3TxBwhAxTRAsbDFujjuusjtSX6AxIzCm94TwrFi1\nNXsMHE0hjuz0yupB2j5LR6oxJwT/iVL7xdvvO4bxmpYGyy6hai48cD9f6uhh51Sc\n9u6ZX+yyHJRqwdITM5DV3AkqC98QlPx3iPg4m5+eDmaieINOtk4jAty/AoGBALQv\nIwNfckRn5DeojmGnjAiMRhHQ+ujng5zM32+Arizf4YL5CHc/H0VsK5c5nGVO/gGO\nMJVLxanwkfaShDjclPDHa9GDM68WusrlTqiSP6cJRgUr5CVpvdYNZxrRpC2+CNmw\nMqpOfyAlMaQsr3k4fUI1XyKOYjIdVL30BnberF19AoGAJycQOxV5EyFkEGJAPS8x\niecMwd0JUos+m5eGseFXFDHn2+6wtzaC5ylVTtcPpraeI2StYp9LJe2rZ8ZJ7wBF\n+tfbRo8KqjCx+mXbYDBwSmO0WsjXph0Olj+y358DtPcemfhUCOHHN14iYAu1W+xU\nIL76VY8cfNUPQkSPPyL1SwQ=\n-----END PRIVATE KEY-----\n",
+  "client_email": "ingabo@ingabo-plant-health-project.iam.gserviceaccount.com",
+  "client_id": "109201631155152043166",
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/ingabo%40ingabo-plant-health-project.iam.gserviceaccount.com"
+}
