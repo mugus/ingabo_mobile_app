@@ -86,7 +86,6 @@ if (!fontsLoaded) {
                             return (
                                 
                         <TouchableOpacity style={{width: 170, height: 240, backgroundColor: '#edefea', borderRadius: 10, padding: 10}} key={crop.crop_id} onPress={()=> navigation.navigate('DianosisScreen', {crop_id: crop.crop_id, name: 'DianosisScreen' })}>
-
                                     <View style={{width: 150, height: 210,alignItems: 'center'}}>
                                         <Image source={{uri: `http://197.243.14.102:4000/uploads/${crop.image}`}} style={{width: 150, height: 170}} />
                                         <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 13,textTransform: 'uppercase', paddingBottom: 10, padding: 10}}>{crop.name}</Text>
