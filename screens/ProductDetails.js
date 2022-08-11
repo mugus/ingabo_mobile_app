@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, View,StatusBar, Platform, SafeAreaView,Button, ScrollView, TouchableOpacity } from 'react-native';
+import { Image, StyleSheet, Text, View,StatusBar, Platform, SafeAreaView, ScrollView, TouchableOpacity } from 'react-native';
 import { useFonts,Roboto_500Medium,Roboto_500Medium_Italic} from '@expo-google-fonts/roboto';
 import axios from 'axios';
 import * as Linking from 'expo-linking';
 import { Storage } from 'expo-storage'
+import { SpeedDial, Input, Icon, BottomSheet, Button, ListItem  } from '@rneui/themed';
+import ContactSalesTeam from './ContactSalesTeam';
+
 const KEY = '@@KEY';
 
 
@@ -13,6 +16,10 @@ export default function ProductDetails({route, navigation}){
     const [productdetails, setProductdetails] = useState([]);
     const [ isloading, setIsloading ] = useState(true);
     const [lang, setLang] = useState("");
+    const [open, setOpen] = React.useState(false);
+    const [isVisible, setIsVisible] = useState(false);
+    const [message, setMessage] = useState("");
+
 
 
     const getLang = async() => {
@@ -35,6 +42,11 @@ export default function ProductDetails({route, navigation}){
     }
     // console.log("Data: ",product_id);
 
+
+    const handleContactTeam = () => {
+        alert("Contacted!")
+    }
+
     const GetData = async () => {
         await axios.get(`http://197.243.14.102:4000/api/v1/products/${product_id}`).then(res => {
             setProductdetails(res.data.product);
@@ -54,7 +66,9 @@ if (!fontsLoaded) {
     return <><Text style={{fontFamily: 'Roboto_500Medium'}}>Loading ...</Text></>;
 } else {
     return(
+        
         <SafeAreaView style={{flex:1, paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0}}>
+                
             <StatusBar backgroundColor = "#fff" barStyle = "dark-content" hidden = {false} translucent = {true}/>
             {
                 lang === 1 ?
@@ -77,12 +91,7 @@ if (!fontsLoaded) {
                                                 {productdetails.description}
                                             </Text>
                                             <Text></Text>
-                                            <Button
-                                                style={{fontFamily: 'Roboto_500Medium'}}
-                                                title="Gura umuti"
-                                                color= "#347464"
-                                                onPress={OpenStore}
-                                                />
+                                            
 
                                         </View>
                                     </View>
@@ -125,13 +134,6 @@ if (!fontsLoaded) {
                                                 {productdetails.description}
                                             </Text>
                                             <Text></Text>
-                                            <Button
-                                                style={{fontFamily: 'Roboto_500Medium'}}
-                                                title="Shop Product"
-                                                color= "#347464"
-                                                onPress={OpenStore}
-                                                />
-
                                         </View>
                                     </View>
                                 </View>
@@ -155,8 +157,70 @@ if (!fontsLoaded) {
                 </>
             }
 
+
+
+
+<BottomSheet modalProps={{}} isVisible={isVisible}>
+    <ScrollView style={{backgroundColor:"#edefea", width: '99%'}}>
             
+        <View style={{flex: 1, flexDirection: 'column', paddingTop: 10}}>
+            <Text style={{fontSize: 17, padding: 10,textAlign: 'center', fontWeight: 'bold',color: '#347464', fontFamily: 'Roboto_500Medium'}}>Contact Sales Team</Text>
+            <Input placeholder='Add Full Names' leftIcon={ <Icon  name='map' size={24} color='black' /> } value={message} onChange={(e) => setMessage(e.target.value)} />
+            <Input placeholder='Add Address' leftIcon={ <Icon  name='map' size={24} color='black' /> }/>
+            <Input keyboardType="numeric" placeholder='Add Phone' leftIcon={ <Icon  name='phone' size={24} color='black' /> }/>
+            <Input multiline numberOfLines={5} placeholder='Add Message' leftIcon={ <Icon  name='mail' size={24} color='black' /> }/>
             
+        </View>
+        <View style={{flex: 1, flexDirection: 'row'}}>
+            <View style={{flex: 1}}>
+                <Button 
+                onPress={() => setIsVisible(false)} 
+                buttonStyle={{
+                    backgroundColor: '#347464',
+                    borderWidth: 1,
+                    color: '#fff',
+                    borderColor: '#347464',
+                    borderRadius: 5,
+                }}>Send</Button>
+            </View>
+            <View style={{flex: 1}}>
+                <Button 
+                onPress={() => setIsVisible(false)} 
+                buttonStyle={{
+                    backgroundColor: 'red',
+                    borderWidth: 1,
+                    borderColor: '#347464',
+                    borderRadius: 5,
+                }}>Close</Button>
+            </View>
+        </View>
+    </ScrollView>
+    
+        
+        
+</BottomSheet>
+
+            
+                <SpeedDial
+                    isOpen={open}
+                    icon={{ name: 'shopping-cart', color: '#347464' }}
+                    openIcon={{ name: 'close', color: '#fff' }}
+                    onOpen={() => setOpen(!open)}
+                    onClose={() => setOpen(!open)}
+                >
+                    <SpeedDial.Action
+                    icon={{ name: 'shopping-cart', color: '#fff' }}
+                    title="Visit Webshop"
+                    onPress={OpenStore}
+                    />
+                    <SpeedDial.Action
+                    icon={{ name: 'mail', color: '#fff' }}
+                    title="Contact sales team"
+                        onPress={() => setIsVisible(true)}
+                    // onPress={()=> navigation.navigate('ContactSalesTeam', {name: 'ContactSalesTeam' })}
+                    />
+                </SpeedDial>
+
             </SafeAreaView>
         );
     }

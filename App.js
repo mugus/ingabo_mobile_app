@@ -6,6 +6,7 @@ import ProductScreen from "./screens/ProductScreen";
 import ProductDetails from "./screens/ProductDetails";
 import LandingScreen from "./screens/LandingScreen";
 import Home from "./screens/Home";
+import ContactSalesTeam from "./screens/ContactSalesTeam";
 import chooseLanguage from "./screens/chooseLanguage";
 import HomeScreen from './screens/HomeScreen';
 import SettingScreen from './screens/SettingScreen';
@@ -82,7 +83,25 @@ function App() {
               fontWeight: 'bold',
             },
           }}
-          />
+        />
+
+        <Stack.Screen
+          name="ContactSalesTeam"
+          component={ContactSalesTeam}
+          options={{
+            title: 'Contact',
+            headerStyle: {
+              backgroundColor: '#fff',
+              right: 0
+            },
+            headerTintColor: '#347464',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+
           <Stack.Screen
           name="chooseLanguage"
           component={chooseLanguage}
@@ -347,6 +366,24 @@ function App() {
             },
           }}
           />
+
+        <Stack.Screen
+          name="ContactSalesTeam"
+          component={ContactSalesTeam}
+          options={{
+            title: 'Contact',
+            headerStyle: {
+              backgroundColor: '#fff',
+              right: 0
+            },
+            headerTintColor: '#347464',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+
         <Stack.Screen
           name="DianosisScreen"
           component={DianosisScreen}
