@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Image, StyleSheet, Text, View,StatusBar, Platform, SafeAreaView, ScrollView, TouchableOpacity, UIManager } from 'react-native';
+import { Image, StyleSheet, Text, View,StatusBar, Platform, SafeAreaView, ScrollView, TouchableOpacity, TextInput } from 'react-native';
 import { useFonts,Roboto_500Medium,Roboto_500Medium_Italic} from '@expo-google-fonts/roboto';
 import axios from 'axios';
 import * as Linking from 'expo-linking';
@@ -18,6 +18,7 @@ export default function ProductDetails({route, navigation}){
     const [lang, setLang] = useState("");
     const [open, setOpen] = React.useState(false);
     const [isVisible, setIsVisible] = useState(false);
+
     const [fullname, setFullname] = useState("");
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
@@ -37,7 +38,7 @@ export default function ProductDetails({route, navigation}){
         }
     }
     const OpenStore = async () => {
-        Linking.openURL('https://ingabo.store');
+        await Linking.openURL('https://ingabo.store');
         // navigation.navigate(
         //     'Browser',
         //     { url: 'https://ingabo.store' }
@@ -46,17 +47,22 @@ export default function ProductDetails({route, navigation}){
     // console.log("Data: ",product_id);
 
 
-    const handleContactTeam = () => {
+    const handleContactTeam = async () => {
         let data = {
             fullname: fullname,
             address: address,
             phone: phone,
             message: message
         }
-        // alert("Contacted!"+data)
-        console.log("Contacted!",fullname)
+        let sms = '';
+        lang === 1 ? sms = `Hello \nNitwa is ${fullname} ntuye ${address}.\n${message}`: sms = `Hello \nMy name is ${fullname} from ${address}.\n${message}`
+        // let sms = `Hello \nMy name is ${fullname} from ${address}.\n${message}`
+        // console.log("fullname:" , data)
+        Linking.openURL(`whatsapp://send?text=${sms}&phone=+250788804330`)
         setIsVisible(false)
     }
+
+
 
     const GetData = async () => {
         await axios.get(`http://197.243.14.102:4000/api/v1/products/${product_id}`).then(res => {
@@ -126,6 +132,7 @@ if (!fontsLoaded) {
                     }
                 </>
                 :
+                // english
                 <>
                     {
                         isloading ? <Text style={{fontSize: 12, left: 15, paddingTop: 60,fontFamily: 'Roboto_500Medium'}}>Loading......</Text> : 
@@ -162,6 +169,8 @@ if (!fontsLoaded) {
                                     </View>
                                 </View>
                                 
+
+
                             </ScrollView>
                         )
                     }
@@ -176,35 +185,38 @@ if (!fontsLoaded) {
             
         <View style={{flex: 1, flexDirection: 'column', paddingTop: 10}}>
             <Text style={{fontSize: 17, padding: 10,textAlign: 'center',textTransform: 'uppercase', fontWeight: 'bold',color: '#347464', fontFamily: 'Roboto_500Medium'}}>Contact Sales Team</Text>
-            <Input placeholder='Add Full Names' leftIcon={ <MaterialCommunityIcons  name='account-cancel' size={24} color='black' /> } value={fullname} onChange={(e) => setFullname(e.target.value)} />
-            <Input placeholder='Add Address' leftIcon={ <Icon  name='map' size={24} color='black' /> } value={address} onChange={(e) => setAddress(e.target.value)} />
-            <Input keyboardType="numeric" placeholder='Add Phone' leftIcon={ <Icon  name='phone' size={24} color='black' /> } value={phone} onChange={(e) => setPhone(e.target.value)} />
-            <Input multiline numberOfLines={5} placeholder='Add Message' leftIcon={ <Icon  name='mail' size={24} color='black' /> } value={message} onChange={(e) => setMessage(e.target.value)} />
-            
-        </View>
-        <View style={{flex: 1, flexDirection: 'row'}}>
-            <View style={{flex: 1}}>
-                <Button 
-                    type="submit"
-                onPress={handleContactTeam} 
-                buttonStyle={{
-                    backgroundColor: '#347464',
-                    borderWidth: 1,
-                    color: '#fff',
-                    borderColor: '#347464',
-                    borderRadius: 5,
-                }}><Icon name="send" color="white" size={30}  /></Button>
+            {/* <Input placeholder='Add Full Names' value={fullname} onChange={e => setFullname(e.target.value)} leftIcon={ <MaterialCommunityIcons  name='account-cancel' size={24} color='black' /> } /> */}
+            <Input placeholder='Add Full Names' onChangeText={(value) => setFullname(value)} leftIcon={ <MaterialCommunityIcons  name='account-cancel' size={24} color='black' /> } />
+            <Input placeholder='Add Address' value={address} onChangeText={(value) => setAddress(value)} leftIcon={ <Icon  name='map' size={24} color='black' /> } />
+            <Input keyboardType="numeric" placeholder='Add Phone' leftIcon={ <Icon  name='phone' size={24} color='black' /> } value={phone} onChangeText={(value) => setPhone(value)} />
+            <Input multiline numberOfLines={5} placeholder='Add Message' leftIcon={ <Icon  name='mail' size={24} color='black' /> } onChangeText={(value) => setMessage(value)} />
+            {/* <input  type='text' value={fullname} onChange={(e) => setFullname(e.target.value)}/> */}
+            {/* <TextInput  value={fullname} onChange={(e) => setFullname(e.target.value)}/> */}
+            <View style={{flex: 1, flexDirection: 'row'}}>
+                <View style={{flex: 1}}>
+                    <Button 
+                        type="submit"
+                    onPress={handleContactTeam} 
+                    buttonStyle={{
+                        backgroundColor: '#347464',
+                        borderWidth: 1,
+                        color: '#fff',
+                        borderColor: '#347464',
+                        borderRadius: 5,
+                    }}><MaterialCommunityIcons name='whatsapp' size={24} color="#fff" /></Button>
+                </View>
+                <View style={{flex: 0.7}}>
+                    <Button 
+                    onPress={() => setIsVisible(false)} 
+                    buttonStyle={{
+                        backgroundColor: 'red',
+                        borderWidth: 1,
+                        borderColor: '#347464',
+                        borderRadius: 5,
+                    }}><MaterialCommunityIcons name='cancel' size={24} color="#fff" /></Button>
+                </View>
             </View>
-            <View style={{flex: 1}}>
-                <Button 
-                onPress={() => setIsVisible(false)} 
-                buttonStyle={{
-                    backgroundColor: 'red',
-                    borderWidth: 1,
-                    borderColor: '#347464',
-                    borderRadius: 5,
-                }}><MaterialCommunityIcons name='cancel' size={30} color="#fff" /></Button>
-            </View>
+
         </View>
     </ScrollView>
     
@@ -212,10 +224,31 @@ if (!fontsLoaded) {
         
 </BottomSheet>
 
-            
+            {
+                lang === 1 ?
                 <SpeedDial
                     isOpen={open}
-                    icon={{ name: 'shopping-cart', color: '#347464' }}
+                    icon={<MaterialCommunityIcons name='send-circle-outline' size={28} color="#347464"/>}
+                    openIcon={{ name: 'close', color: '#fff' }}
+                    onOpen={() => setOpen(!open)}
+                    onClose={() => setOpen(!open)}
+                >
+                    <SpeedDial.Action
+                    icon={{ name: 'shopping-cart', color: '#fff' }}
+                    title="Sura iguriro"
+                    onPress={OpenStore}
+                    />
+                    <SpeedDial.Action
+                    icon={<MaterialCommunityIcons name='whatsapp' size={24} color="#fff" />}
+                    title="Vugisha uwagufasha"
+                        onPress={() => setIsVisible(true)}
+                    // onPress={()=> navigation.navigate('ContactSalesTeam', {name: 'ContactSalesTeam' })}
+                    />
+                </SpeedDial>
+                :
+                <SpeedDial
+                    isOpen={open}
+                    icon={<MaterialCommunityIcons name='send-circle-outline' size={28} color="#347464" />}
                     openIcon={{ name: 'close', color: '#fff' }}
                     onOpen={() => setOpen(!open)}
                     onClose={() => setOpen(!open)}
@@ -226,12 +259,14 @@ if (!fontsLoaded) {
                     onPress={OpenStore}
                     />
                     <SpeedDial.Action
-                    icon={{ name: 'send', color: '#fff' }}
+                    icon={<MaterialCommunityIcons name='whatsapp' size={24} color="#fff" />}
                     title="Contact sales team"
                         onPress={() => setIsVisible(true)}
                     // onPress={()=> navigation.navigate('ContactSalesTeam', {name: 'ContactSalesTeam' })}
                     />
                 </SpeedDial>
+            }
+                
 
             </SafeAreaView>
         );
