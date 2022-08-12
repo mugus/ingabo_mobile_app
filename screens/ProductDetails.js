@@ -55,10 +55,15 @@ export default function ProductDetails({route, navigation}){
             message: message
         }
         let sms = '';
-        lang === 1 ? sms = `Hello \nNitwa is ${fullname} ntuye ${address}.\n${message}`: sms = `Hello \nMy name is ${fullname} from ${address}.\n${message}`
+        lang === 1 ? sms = `Message from Ingabo App!\n\nHello \nNitwa is ${fullname} ntuye ${address}.\n${message}.\nMwamvugisha kuri ${phone}`: sms = `Message from Ingabo App!\n\nHello \nMy name is ${fullname} from ${address}.\n${message}\nContact me on ${phone}`
         // let sms = `Hello \nMy name is ${fullname} from ${address}.\n${message}`
         // console.log("fullname:" , data)
-        Linking.openURL(`whatsapp://send?text=${sms}&phone=+250788804330`)
+        const link = `whatsapp://send?text=${sms}&phone=+250788418126`;
+        Linking.openURL(link).then((data) => {
+            console.log('WhatsApp Opened');
+          }).catch(() => {
+            alert('Make sure WhatsApp installed on your device and try again');
+          });
         setIsVisible(false)
     }
 
