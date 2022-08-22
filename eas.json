@@ -15,7 +15,7 @@
   "submit": {
     "production": {
       "android": {
-        "serviceAccountKeyPath": "./ingabo-plant-health-project-ebce013ea6d2.json",
+        "serviceAccountKeyPath": "./google-keys/ingabo-plant-health-project-ebce013ea6d2.json",
         "track": "internal"
       }
     }
