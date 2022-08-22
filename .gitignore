@@ -9,6 +9,6 @@ npm-debug.*
 *.mobileprovision
 *.orig.*
 web-build/
-*ingabo-plant-health-project-ebce013ea6d2.json
+./ingabo-plant-health-project-ebce013ea6d2.json
 # macOS
 .DS_Store
