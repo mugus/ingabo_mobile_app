@@ -1,17 +1,19 @@
 import React, { useState, useEffect } from 'react';
-import { Image, View, SafeAreaView,Linking, ScrollView, TouchableOpacity, StatusBar } from 'react-native';
+import { Image, View, SafeAreaView,Linking, ScrollView, TouchableOpacity, StatusBar, StyleSheet, Dimensions, TextInput } from 'react-native';
 import { useFonts,Roboto_500Medium } from '@expo-google-fonts/roboto';
 import { SpeedDial, Input, Icon, BottomSheet, Button, Text  } from '@rneui/themed';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Storage } from 'expo-storage'
 const KEY = '@@KEY';
 import axios from 'axios';
-const width = '47%';
+// const width = '47%';
+const width = Dimensions.get('window').width / 2 - 15;
 
 
 export default function ProductScreen({navigation}){
     let [fontsLoaded] = useFonts({Roboto_500Medium});
     const [product, setProduct] = useState([]);
+    const [ categoryIndex, setCategoryIndex ] = React.useState(0);
     const [ isloading, setIsloading ] = useState(true);
     const [productkin, setProductkin] = useState([]);
     const [producteng, setPriducteng] = useState([]);
@@ -36,6 +38,76 @@ export default function ProductScreen({navigation}){
             console.log(" No Value", err);
         }
     }
+
+
+    const KinyaCategory = [
+        "All",
+        "Fungicide",
+        "Ifumbire",
+        "Imiti ihungira",
+        "Imiti yica udukoko",
+    ];
+    const EngCategory = [
+        "All",
+        "Fungicide",
+        "Fertilizer",
+        "Pesticide",
+        "Seed Coating"
+    ];
+    
+    const CategoryList = () => {
+        return(
+            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} automaticallyAdjustContentInsets={true} style={{flexDirection: 'row', paddingLeft:5,marginTop: 10,marginBottom: 10}}>
+                {
+                    lang === 1 ? (
+                        <>
+                        {
+                           KinyaCategory.map((item, index) => {
+                            <TouchableOpacity
+                                key={index}
+                                activeOpacity={0.8}
+                                onPress={() => setCategoryIndex(index)}
+                                >
+                                <Text
+                                style={[
+                                    style.TextCategory,
+                                    categoryIndex === index && style.categoryTextSelected,
+                                ]}>
+                                {item}
+                                </Text>
+                            </TouchableOpacity>
+                           }) 
+                        }
+                        </>
+                    ): (
+                        <>
+                        {
+                           EngCategory.map((item, index) => {
+                            <TouchableOpacity
+                                key={index}
+                                activeOpacity={0.8}
+                                onPress={() => setCategoryIndex(index)}
+                                >
+                                <Text
+                                style={[
+                                    style.TextCategory,
+                                    categoryIndex === index && style.categoryTextSelected,
+                                ]}>
+                                {item}
+                                </Text>
+                            </TouchableOpacity>
+                           }) 
+                        }
+                        </>
+                    )
+                }
+            </ScrollView>
+        )
+    }
+
+
+
+
 
 const getKinyaProducts = () => {
     axios.get('http://197.243.14.102:4000/api/v1/products/kin').then(res => {
@@ -102,12 +174,72 @@ if (!fontsLoaded) {
         <SafeAreaView>
             <StatusBar backgroundColor = "#fff" barStyle = "dark-content" hidden = {false} translucent = {true}/>
 
+            {/* <View style={style.header}>
+                <View>
+                    <Text style={{fontSize: 20, fontWeight: 'bold'}}>Welcome to</Text>
+                    <Text style={{fontSize: 25, color: '#347464', fontWeight: 'bold'}}>
+                        Plant Health Products
+                    </Text>
+                </View>
+            </View> */}
+            <View style={{padding: 10, flexDirection: 'row'}}>
+                <View style={style.searchContainer}>
+                    <Icon name="search" size={25} style={{marginLeft: 20}} />
+                    <TextInput placeholder="Search" style={style.input} />
+                </View>
+                <View style={style.sortBtn}>
+                    <Icon name="sort" size={30} color="#fff" />
+                </View>
+            </View>
+            {lang === 1 ?
+                        <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} automaticallyAdjustContentInsets={true} style={{flexDirection: 'row', paddingLeft:5,marginTop: 10,marginBottom: 10}}>
+                        {
+                            KinyaCategory.map((item, index) => (
+                                <TouchableOpacity
+                                    key={index}
+                                    activeOpacity={0.8}
+                                    onPress={() => setCategoryIndex(index)}
+                                    >
+                                    <Text
+                                    style={[
+                                        style.TextCategory,
+                                        categoryIndex === index && style.categoryTextSelected,
+                                    ]}>
+                                    {item}
+                                    </Text>
+                                </TouchableOpacity>
+                                ))}
+                        </ScrollView>
+                :
+                <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} automaticallyAdjustContentInsets={true} style={{flexDirection: 'row', paddingLeft:5,marginTop: 10,marginBottom: 10}}>
+                {
+                    EngCategory.map((item, index) => (
+                        <TouchableOpacity
+                            key={index}
+                            activeOpacity={0.8}
+                            onPress={() => setCategoryIndex(index)}
+                            >
+                            <Text
+                            style={[
+                                style.TextCategory,
+                                categoryIndex === index && style.categoryTextSelected,
+                            ]}>
+                            {item}
+                            </Text>
+                        </TouchableOpacity>
+                        ))}
+                </ScrollView>
+            }
+
+
+
             {
                 lang === 1 ?
             <ScrollView>
                 {
                 isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Birimo gukorwa ... </Text></View> ):
                 (
+
                         <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 10, paddingBottom: 10,  }}>
                             {
                                 productkin.map((product)=>{
@@ -252,3 +384,75 @@ if (!fontsLoaded) {
         );
     }
 }
+
+const style = StyleSheet.create({
+    categoryContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 30,
+        marginBottom: 20,
+        justifyContent : 'space-between'
+    },
+    categoryText: {
+        fontSize: 16,
+        color: "black",
+        fontWeight: "bold"
+    },
+    categorySelectedText: {
+        color: "#347464",
+        paddingBottom: 5,
+        borderBottomWidth: 2,
+        borderColor: "#fff"
+    },
+    header: {
+        paddingLeft: 10,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+    },
+    searchContainer: {
+    height: 35,
+    backgroundColor: "#D3D3D3",
+    borderRadius: 10,
+    flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
+    },
+    sortBtn: {
+        marginLeft: 10,
+        height: 35,
+        width: 50,
+        backgroundColor: "#347464",
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius:10
+      },
+
+    input: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    flex: 1,
+    color: "#000",
+    },
+    TextCategory:{
+        fontSize: 15,
+        textTransform: 'uppercase',
+        textDecorationColor: '#347464',
+        // textDecorationLine: 'underline',
+        paddingLeft:10,
+        paddingTop: 5,
+        paddingRight: 10,
+        height: 30,
+        color: "black",
+        fontWeight: "bold", 
+        // backgroundColor:"gray",
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+categoryTextSelected: {
+    color: '#347464',
+    paddingBottom: 5,
+    borderBottomWidth: 2,
+    borderColor: '#347464',
+    },
+})
