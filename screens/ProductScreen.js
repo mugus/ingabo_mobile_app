@@ -16,9 +16,10 @@ export default function ProductScreen({navigation}){
     const [ categoryIndex, setCategoryIndex ] = React.useState(0);
     const [ isloading, setIsloading ] = useState(true);
     const [productkin, setProductkin] = useState([]);
-    const [producteng, setPriducteng] = useState([]);
+    const [producteng, setProducteng] = useState([]);
+    const [productsearch, setProductsearch] = useState([]);
     const [lang, setLang] = useState("");
-
+    
     const [open, setOpen] = React.useState(false);
     const [isVisible, setIsVisible] = useState(false);
 
@@ -26,6 +27,8 @@ export default function ProductScreen({navigation}){
     const [address, setAddress] = useState("");
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
+
+    const [searchkey, setSearchkey] = useState("");
 
     const getLang = async() => {
         try {
@@ -55,57 +58,23 @@ export default function ProductScreen({navigation}){
         "Seed Coating"
     ];
     
-    const CategoryList = () => {
-        return(
-            <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} automaticallyAdjustContentInsets={true} style={{flexDirection: 'row', paddingLeft:5,marginTop: 10,marginBottom: 10}}>
-                {
-                    lang === 1 ? (
-                        <>
-                        {
-                           KinyaCategory.map((item, index) => {
-                            <TouchableOpacity
-                                key={index}
-                                activeOpacity={0.8}
-                                onPress={() => setCategoryIndex(index)}
-                                >
-                                <Text
-                                style={[
-                                    style.TextCategory,
-                                    categoryIndex === index && style.categoryTextSelected,
-                                ]}>
-                                {item}
-                                </Text>
-                            </TouchableOpacity>
-                           }) 
-                        }
-                        </>
-                    ): (
-                        <>
-                        {
-                           EngCategory.map((item, index) => {
-                            <TouchableOpacity
-                                key={index}
-                                activeOpacity={0.8}
-                                onPress={() => setCategoryIndex(index)}
-                                >
-                                <Text
-                                style={[
-                                    style.TextCategory,
-                                    categoryIndex === index && style.categoryTextSelected,
-                                ]}>
-                                {item}
-                                </Text>
-                            </TouchableOpacity>
-                           }) 
-                        }
-                        </>
-                    )
-                }
-            </ScrollView>
-        )
+const handleSearch = async() => {
+    // alert("Ready: "+searchkey)
+    await axios.get(`http://197.243.14.102:4000/api/v1/products/search/${lang}/${searchkey}`).then(res => {
+        setProductkin(res.data.products);
+        setProducteng(res.data.products);
+        setProductsearch(res.data.products)
+        setIsloading(false);
+        // setLang(language)
+        producteng ? setisready(false) : setisready(true)
+        productkin ? setisready(false) : setisready(true)
+        }).catch(err=>{
+            console.log(err);
+        })
+        // Keyboard.dismiss()
     }
 
-
+// productkin.length == 0 ? alert("No Data") :  alert("Data") 
 
 
 
@@ -123,7 +92,7 @@ const getKinyaProducts = () => {
 }
 const getEngProducts = () => {
     axios.get('http://197.243.14.102:4000/api/v1/products/en').then(res => {
-        setPriducteng(res.data.products);
+        setProducteng(res.data.products);
         // setLang(language)
         setIsloading(false);
         producteng ? setisready(true) : setisready(false)
@@ -163,6 +132,7 @@ const handleContactTeam = async () => {
         getLang()
         getKinyaProducts()
         getEngProducts()
+        // SortCategory()
       }, [])
 
 
@@ -184,12 +154,12 @@ if (!fontsLoaded) {
             </View> */}
             <View style={{padding: 10, flexDirection: 'row'}}>
                 <View style={style.searchContainer}>
-                    <Icon name="search" size={25} style={{marginLeft: 20}} />
-                    <TextInput placeholder="Search" style={style.input} />
+                    <Icon name="search" size={20} style={{marginLeft: 20}} />
+                    <TextInput placeholder="Search" onChangeText={newText => setSearchkey(newText)} defaultValue={searchkey} style={style.input} />
                 </View>
-                <View style={style.sortBtn}>
-                    <Icon name="sort" size={30} color="#fff" />
-                </View>
+                <TouchableOpacity onPress={handleSearch} style={style.sortBtn}>
+                    <Icon name="search" size={25} color="#fff" />
+                </TouchableOpacity>
             </View>
             {lang === 1 ?
                         <ScrollView horizontal={true} showsHorizontalScrollIndicator={false} automaticallyAdjustContentInsets={true} style={{flexDirection: 'row', paddingLeft:5,marginTop: 10,marginBottom: 10}}>
@@ -198,7 +168,13 @@ if (!fontsLoaded) {
                                 <TouchableOpacity
                                     key={index}
                                     activeOpacity={0.8}
-                                    onPress={() => setCategoryIndex(index)}
+                                    // onPress={
+                                    //     SortCategory(index)
+                                    // }
+                                    onPress={() => 
+                                        setCategoryIndex(index)
+                                        // console.log("Category", item)
+                                    }
                                     >
                                     <Text
                                     style={[
@@ -239,8 +215,8 @@ if (!fontsLoaded) {
                 {
                 isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Birimo gukorwa ... </Text></View> ):
                 (
-
-                        <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 10, paddingBottom: 10,  }}>
+                 
+                        <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100,  }}>
                             {
                                 productkin.map((product)=>{
                                     return (
@@ -248,7 +224,8 @@ if (!fontsLoaded) {
                                         <TouchableOpacity key={product.product_id} style={{padding: 10,height:250,borderRadius: 10, margin: 5,backgroundColor: "#edefea", width:width}} onPress={()=> navigation.navigate('ProductDetails', {product_id: product.product_id, name: 'ProductDetails' })}>
                                             <View styles={{padding: 10, alignItems: 'center'}}>
                                                 <Image source={{uri: `http://197.243.14.102:4000/uploads/${product.image}`}} style={{ borderRadius: 5,width: 150, height: 170}} />
-                                                <Text style={{color: '#000', fontWeight: 'bold',padding:10, fontSize: 13, textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{product.name}</Text>
+                                                <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10,paddingTop:10, fontSize: 13, textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{product.name}</Text>
+                                                <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10, fontSize: 10, textTransform: 'capitalize',fontFamily: 'Roboto_500Medium'}}>{product.category}</Text>
                                             </View>
                                         </TouchableOpacity>
                                         
@@ -268,7 +245,8 @@ if (!fontsLoaded) {
                 {
                 isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Loading ... </Text></View> ):
                 (
-                        <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 10, paddingBottom: 10,  }}>
+                   
+                        <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100}}>
                             {
                                 producteng.map((product)=>{
                                     return (
@@ -276,7 +254,8 @@ if (!fontsLoaded) {
                                         <TouchableOpacity key={product.product_id} style={{padding: 20,height:250,borderRadius: 10, margin: 5,backgroundColor: "#edefea", width:width}} onPress={()=> navigation.navigate('ProductDetails', {product_id: product.product_id, name: 'ProductDetails' })}>
                                             <View styles={{padding: 10, alignItems: 'center'}}>
                                                 <Image source={{uri: `http://197.243.14.102:4000/uploads/${product.image}`}} style={{ borderRadius: 5,width: 150, height: 170}} />
-                                                <Text style={{color: '#000', fontWeight: 'bold',padding:10, fontSize: 13, textTransform: 'uppercase',textAlign: 'center' ,fontFamily: 'Roboto_500Medium'}}>{product.name}</Text>
+                                                <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10,paddingTop:10, fontSize: 13, textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{product.name}</Text>
+                                                <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10, fontSize: 10, textTransform: 'capitalize',fontFamily: 'Roboto_500Medium'}}>{product.category}</Text>
                                             </View>
                                         </TouchableOpacity>
                                         
@@ -286,7 +265,6 @@ if (!fontsLoaded) {
                             }
                             
                         </View>
-                        
                         )
                     } 
             </ScrollView>
@@ -428,10 +406,11 @@ const style = StyleSheet.create({
       },
 
     input: {
-    fontSize: 18,
+    fontSize: 13,
     fontWeight: 'bold',
     flex: 1,
     color: "#000",
+    marginLeft: 20
     },
     TextCategory:{
         fontSize: 15,
