@@ -29,6 +29,7 @@ export default function ProductScreen({navigation}){
     const [message, setMessage] = useState("");
 
     const [searchkey, setSearchkey] = useState("");
+    const [errormsg, setErrormsg] = useState("")
 
     const getLang = async() => {
         try {
@@ -54,7 +55,7 @@ export default function ProductScreen({navigation}){
         "All",
         "Fungicide",
         "Fertilizer",
-        "Pesticide",
+        "Insecticide",
         "Seed Coating"
     ];
     
@@ -66,16 +67,43 @@ const handleSearch = async() => {
         setProductsearch(res.data.products)
         setIsloading(false);
         // setLang(language)
-        producteng ? setisready(false) : setisready(true)
-        productkin ? setisready(false) : setisready(true)
+        // producteng ? setisready(false) : setisready(true)
+        // productkin ? setisready(false) : setisready(true)
         }).catch(err=>{
-            console.log(err);
+            if(err.response.data.message==="No result found"){
+        //     setErrormsg(err.response.data.message);
+                lang ? alert("Ntago bibonetse") : alert(err.response.data.message)
+            }else{
+                console.log(err);
+            }
+            // console.log(err);
         })
         // Keyboard.dismiss()
     }
 
-setProductsearch.length == 0 ? alert("No Data") :  console.log(setProductsearch);
 
+const handleCategory = async(item) => {
+    if(item !== 'All'){
+
+        await axios.get(`http://197.243.14.102:4000/api/v1/products/${item}/${lang}`).then(res => {
+            setProductkin(res.data.products);
+            setProducteng(res.data.products);
+            setProductsearch(res.data.products)
+            setIsloading(false);
+            // setErrormsg("")
+            // producteng ? setisready(false) : setisready(true)
+            // productkin ? setisready(false) : setisready(true)
+            }).catch(err=>{
+                if(err.response.data.status===404){
+                //     setErrormsg(err.response.data.message);
+                    lang ? alert(item+" ntibonetse") : alert(item+" not found!")
+                  }else{
+                    console.log(err);
+                  }
+            })
+
+    }
+}
 
 
 const getKinyaProducts = () => {
@@ -171,8 +199,10 @@ if (!fontsLoaded) {
                                     // onPress={
                                     //     SortCategory(index)
                                     // }
-                                    onPress={() => 
+                                    onPress={() => {
                                         setCategoryIndex(index)
+                                        handleCategory(item)
+                                    }
                                         // console.log("Category", item)
                                     }
                                     >
@@ -193,7 +223,12 @@ if (!fontsLoaded) {
                         <TouchableOpacity
                             key={index}
                             activeOpacity={0.8}
-                            onPress={() => setCategoryIndex(index)}
+                            onPress={() => 
+                                {
+                                    setCategoryIndex(index)
+                                    handleCategory(item)
+                                }
+                            }
                             >
                             <Text
                             style={[
@@ -215,7 +250,14 @@ if (!fontsLoaded) {
                 {
                 isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Birimo gukorwa ... </Text></View> ):
                 (
-                 
+                    <>
+                    {
+                        errormsg ? 
+                        <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100,  }}>
+                            <Text style={{fontFamily: 'Roboto_500Medium'}}>{errormsg}</Text>
+                        </View>
+                        :
+
                         <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100,  }}>
                             {
                                 productkin.map((product)=>{
@@ -235,6 +277,11 @@ if (!fontsLoaded) {
                             }
                             
                         </View>
+                    }
+                        
+                    </>
+                 
+                        
                         
                         )
                     } 

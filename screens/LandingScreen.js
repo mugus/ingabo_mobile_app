@@ -10,8 +10,7 @@ const KEY = '@@KEY';
 const wait = (timeout) => {
     return new Promise(resolve => setTimeout(resolve, timeout));
   }
-
-console.log("height: ", height);
+  
 
 export default function LandingScreen({navigation}){
     let [fontsLoaded] = useFonts({Roboto_500Medium});
@@ -77,10 +76,6 @@ export default function LandingScreen({navigation}){
                         <View style={{ alignSelf: 'stretch',alignItems: 'center'}}>
                             <Image source={require('../assets/last_main_logo.png')} style={{height: 305, width: 150}} />
                         </View>
-
-                        {/* <View style={{ alignSelf: 'stretch',alignItems: 'center'}}>
-                            <Image source={require('../assets/sub-main-logo-removebg-preview.png')} style={{height: 150}} />
-                        </View> */}
 
                         <View style={{padding: 0, alignItems: 'center', justifyContent: 'center'}}>
                             <Text style={{color: '#347464',fontSize: 50,fontWeight: 'bold',fontFamily: 'Roboto_500Medium'}}>INGABO</Text>                        
