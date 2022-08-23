@@ -102,9 +102,6 @@ export default function Home({route,navigation}){
                         <Text style={{color: '#347464', fontSize: 16, fontWeight: 'bold'}}>Our Partners</Text>
                     </View>
                     <ScrollView horizontal={true} style={{top: 100, left: 11, height: 250}}>
-                        <Image  source={require('../assets/bk.jpg')} style={{width: 250,height: 60}} /> 
-                        <Image  source={require('../assets/bk.jpg')} style={{width: 250,height: 60, left: 10, right: 10}} /> 
-                        <Image  source={require('../assets/bk.jpg')} style={{width: 250,height: 60, left: 10, right: 10}} /> 
                     </ScrollView>
                 </ScrollView>
             {/* ) : (
