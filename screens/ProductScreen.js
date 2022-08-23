@@ -74,7 +74,7 @@ const handleSearch = async() => {
         // Keyboard.dismiss()
     }
 
-// productkin.length == 0 ? alert("No Data") :  alert("Data") 
+setProductsearch.length == 0 ? alert("No Data") :  console.log(setProductsearch);
 
 
 
