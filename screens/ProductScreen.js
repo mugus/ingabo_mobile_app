@@ -115,7 +115,7 @@ const handleCategory = async(item) => {
     }
 }
 
-sorting ? console.log("sorting") : console.log("Not sorting")
+
 
 const getKinyaProducts = () => {
     axios.get('http://197.243.14.102:4000/api/v1/products/kin').then(res => {
@@ -150,19 +150,26 @@ const OpenStore = async () => {
 
 const handleContactTeam = async () => {
     let sms = '';
-    lang === 1 ? sms = `Message from Ingabo App!\n\nHello \nNitwa is ${fullname} ntuye ${address}.\n${message}.\nMwamvugisha kuri ${phone}`: sms = `Message from Ingabo App!\n\nHello \nMy name is ${fullname} from ${address}.\n${message}\nContact me on ${phone}`
-    // let sms = `Hello \nMy name is ${fullname} from ${address}.\n${message}`
-    // console.log("fullname:" , data)
-    const link = `whatsapp://send?text=${sms}&phone=+250787265587`;
-    Linking.openURL(link).then((data) => {
-        console.log('WhatsApp Opened');
-        }).catch(() => {
+    if(fullname === '' || phone === '' || message === ''|| address === ''){
         lang === 1 ?
-        alert('Ntago WhatsApp Igaragara muri Telefoni yawe! Duhamagare kuri +250787265587')
+        alert('Ntago wujuje imyanya yose')
         :
-        alert('Make sure WhatsApp installed on your device and try again! Or Call +250787265587')
-
-        });
+        alert('All fields are required')
+    }else{
+        lang === 1 ? sms = `Message from Ingabo App!\n\nHello \nNitwa ${fullname} ntuye ${address}.\n${message}.\nMwamvugisha kuri ${phone}`: sms = `Message from Ingabo App!\n\nHello \nMy name is ${fullname} from ${address}.\n${message}\nContact me on ${phone}`
+        // let sms = `Hello \nMy name is ${fullname} from ${address}.\n${message}`
+        // console.log("fullname:" , data)
+        const link = `whatsapp://send?text=${sms}&phone=+250787265587`;
+        Linking.openURL(link).then((data) => {
+            console.log('WhatsApp Opened');
+            }).catch(() => {
+            lang === 1 ?
+            alert('Ntago WhatsApp Igaragara muri Telefoni yawe! Duhamagare kuri +250787265587')
+            :
+            alert('Make sure WhatsApp installed on your device and try again! Or Call +250787265587')
+    
+            });
+    }
     setIsVisible(false)
 }
 

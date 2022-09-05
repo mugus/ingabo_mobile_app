@@ -86,7 +86,7 @@ export default function LandingScreen({navigation}){
 
                     
                     <View style={{ flex: 1, flexDirection: 'row', position: 'absolute', marginBottom: 30, fontSize:22 ,bottom: 10, alignItems: 'center', justifyContent: 'flex-end'}}>
-                        <View style={{flex: 1,paddingLeft: '13%'}}>
+                        <View style={{flex: 1,paddingLeft: '11%'}}>
                             <Text onPress={HandleChangeToEnglish}  style={{fontSize: 15, fontWeight: 'bold',textTransform: 'uppercase' ,fontFamily: 'Roboto_500Medium'}}>English</Text> 
                         </View>
                         <View style={{flex: 1,paddingLeft: '13%'}}>
