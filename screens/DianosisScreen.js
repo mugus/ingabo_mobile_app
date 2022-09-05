@@ -18,6 +18,7 @@ export default function DianosisScreen({route, navigation}){
     const { crop_id, name } = route.params;
     const [diagnosisdetails, setDiagnosisdetails] = useState([]);
     const [lang, setLang] = useState("");
+    const [ isloading, setIsloading ] = useState(true);
 
 
 
@@ -50,15 +51,22 @@ const getLang = async() => {
     useEffect(()=> {
         axios.get(`http://197.243.14.102:4000/api/v1/crops/${crop_id}`).then(res => {
             setDiagnosisdetails(res.data.diag);
+            setIsloading(false)
         }).catch(err=>{
-            setErrMsg(err.response.data.message)
-            console.log(err);
+            if(err.response.data.status === 404){
+                setErrMsg(err.response.data.message)
+                setIsloading(false)
+                console.log(err);
+            }else{
+                console.log(err);
+            }
+            
         })
         diagnosisdetails ? setisready(true) : setisready(false)
         getLang()
       }, [])
 
-console.log(diagnosisdetails);
+// console.log("Loading: ",isloading);
     if (hasPermission === false) {
         return <Text>{lang === 1 ? <Text>Kwinjira kuri kamera ntibyemejwe</Text> : <Text>Sorry, No access to camera granted</Text> }</Text>;
       }
@@ -154,6 +162,9 @@ if (!fontsLoaded) {
     return(
         <SafeAreaView>
             <StatusBar backgroundColor = "#fff" barStyle = "dark-content" hidden = {false} translucent = {true}/>
+            {isloading ?
+                <><Text style={{fontFamily: 'Roboto_500Medium', fontSize: 16, padding: 20, textAlign: 'center'}}>Loading ...</Text></>
+            :
             <ScrollView>
                 {
                 errMsg ? (
@@ -198,6 +209,8 @@ if (!fontsLoaded) {
 
                     
             </ScrollView>
+            }
+            
         </SafeAreaView>
     );
 }

@@ -15,6 +15,10 @@ export default function ProductScreen({navigation}){
     const [product, setProduct] = useState([]);
     const [ categoryIndex, setCategoryIndex ] = React.useState(0);
     const [ isloading, setIsloading ] = useState(true);
+
+    const [ sorting, setSorting ] = useState(false);
+    const [ searching, setSearching ] = useState(false);
+
     const [productkin, setProductkin] = useState([]);
     const [producteng, setProducteng] = useState([]);
     const [productsearch, setProductsearch] = useState([]);
@@ -60,18 +64,19 @@ export default function ProductScreen({navigation}){
     ];
     
 const handleSearch = async() => {
-    // alert("Ready: "+searchkey)
+    setSearching(true);
     await axios.get(`http://197.243.14.102:4000/api/v1/products/search/${lang}/${searchkey}`).then(res => {
         setProductkin(res.data.products);
         setProducteng(res.data.products);
         setProductsearch(res.data.products)
-        setIsloading(false);
+        setSearching(false);
         // setLang(language)
         // producteng ? setisready(false) : setisready(true)
         // productkin ? setisready(false) : setisready(true)
         }).catch(err=>{
             if(err.response.data.message==="No result found"){
         //     setErrormsg(err.response.data.message);
+                setSearching(false);
                 lang ? alert("Ntago bibonetse") : alert(err.response.data.message)
             }else{
                 console.log(err);
@@ -83,34 +88,40 @@ const handleSearch = async() => {
 
 
 const handleCategory = async(item) => {
+    setSorting(true);
     if(item !== 'All'){
 
         await axios.get(`http://197.243.14.102:4000/api/v1/products/${item}/${lang}`).then(res => {
             setProductkin(res.data.products);
             setProducteng(res.data.products);
             setProductsearch(res.data.products)
-            setIsloading(false);
+            setSorting(false);
             // setErrormsg("")
             // producteng ? setisready(false) : setisready(true)
             // productkin ? setisready(false) : setisready(true)
             }).catch(err=>{
                 if(err.response.data.status===404){
                 //     setErrormsg(err.response.data.message);
+                    setSorting(false);
                     lang ? alert(item+" ntibonetse") : alert(item+" not found!")
                   }else{
                     console.log(err);
                   }
             })
 
+    }else{
+        getKinyaProducts()
+        getEngProducts()
     }
 }
 
+sorting ? console.log("sorting") : console.log("Not sorting")
 
 const getKinyaProducts = () => {
     axios.get('http://197.243.14.102:4000/api/v1/products/kin').then(res => {
         setProductkin(res.data.products);
         setIsloading(false);
-        // setLang(language)
+        setSorting(false);
         productkin ? setisready(true) : setisready(false)
             console.log("Kinya products");
             // console.log("products", res.data.products);
@@ -121,7 +132,7 @@ const getKinyaProducts = () => {
 const getEngProducts = () => {
     axios.get('http://197.243.14.102:4000/api/v1/products/en').then(res => {
         setProducteng(res.data.products);
-        // setLang(language)
+        setSorting(false);
         setIsloading(false);
         producteng ? setisready(true) : setisready(false)
             console.log("products English");
@@ -246,75 +257,87 @@ if (!fontsLoaded) {
 
             {
                 lang === 1 ?
-            <ScrollView>
-                {
-                isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Birimo gukorwa ... </Text></View> ):
-                (
-                    <>
-                    {
-                        errormsg ? 
-                        <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100,  }}>
-                            <Text style={{fontFamily: 'Roboto_500Medium'}}>{errormsg}</Text>
-                        </View>
-                        :
-
-                        <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100,  }}>
-                            {
-                                productkin.map((product)=>{
-                                    return (
-
-                                        <TouchableOpacity key={product.product_id} style={{padding: 10,height:250,borderRadius: 10, margin: 5,backgroundColor: "#edefea", width:width}} onPress={()=> navigation.navigate('ProductDetails', {product_id: product.product_id, name: 'ProductDetails' })}>
-                                            <View styles={{padding: 10, alignItems: 'center'}}>
-                                                <Image source={{uri: `http://197.243.14.102:4000/uploads/${product.image}`}} style={{ borderRadius: 5,width: 150, height: 170}} />
-                                                <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10,paddingTop:10, fontSize: 13, textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{product.name}</Text>
-                                                <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10, fontSize: 10, textTransform: 'capitalize',fontFamily: 'Roboto_500Medium'}}>{product.category}</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                        
-           
-                                    )
-                                })
-                            }
-                            
-                        </View>
-                    }
-                        
-                    </>
-                 
-                        
-                        
-                        )
-                    } 
-            </ScrollView>
+                <>
+                {sorting || searching ?
+                    <><Text style={{fontFamily: 'Roboto_500Medium', fontSize: 16, padding: 20, textAlign: 'center'}}>Birimo gukorwa ...</Text></>
                 :
-
-            <ScrollView>
-                {
-                isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Loading ... </Text></View> ):
-                (
-                   
-                        <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100}}>
+                    <ScrollView>
+                        {
+                        isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Birimo gukorwa ... </Text></View> ):
+                        (
+                            <>
                             {
-                                producteng.map((product)=>{
-                                    return (
+                                errormsg ? 
+                                <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100,  }}>
+                                    <Text style={{fontFamily: 'Roboto_500Medium'}}>{errormsg}</Text>
+                                </View>
+                                :
 
-                                        <TouchableOpacity key={product.product_id} style={{padding: 20,height:250,borderRadius: 10, margin: 5,backgroundColor: "#edefea", width:width}} onPress={()=> navigation.navigate('ProductDetails', {product_id: product.product_id, name: 'ProductDetails' })}>
-                                            <View styles={{padding: 10, alignItems: 'center'}}>
-                                                <Image source={{uri: `http://197.243.14.102:4000/uploads/${product.image}`}} style={{ borderRadius: 5,width: 150, height: 170}} />
-                                                <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10,paddingTop:10, fontSize: 13, textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{product.name}</Text>
-                                                <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10, fontSize: 10, textTransform: 'capitalize',fontFamily: 'Roboto_500Medium'}}>{product.category}</Text>
-                                            </View>
-                                        </TouchableOpacity>
-                                        
-           
-                                    )
-                                })
+                                <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100,  }}>
+                                    {
+                                        productkin.map((product)=>{
+                                            return (
+
+                                                <TouchableOpacity key={product.product_id} style={{padding: 10,height:250,borderRadius: 10, margin: 5,backgroundColor: "#edefea", width:width}} onPress={()=> navigation.navigate('ProductDetails', {product_id: product.product_id, name: 'ProductDetails' })}>
+                                                    <View styles={{padding: 10, alignItems: 'center'}}>
+                                                        <Image source={{uri: `http://197.243.14.102:4000/uploads/${product.image}`}} style={{ borderRadius: 5,width: 150, height: 170}} />
+                                                        <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10,paddingTop:10, fontSize: 13, textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{product.name}</Text>
+                                                        <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10, fontSize: 10, textTransform: 'capitalize',fontFamily: 'Roboto_500Medium'}}>{product.category}</Text>
+                                                    </View>
+                                                </TouchableOpacity>
+                                                
+                
+                                            )
+                                        })
+                                    }
+                                    
+                                </View>
                             }
+                                
+                            </>
+                        
+                                
+                                
+                                )
+                            } 
+                    </ScrollView>
+                }
+                </>
+                :
+                <>
+                    {sorting || searching ?
+                        <><Text style={{fontFamily: 'Roboto_500Medium', fontSize: 16, padding: 20, textAlign: 'center'}}>Loading ...</Text></>
+                    :
+                        <ScrollView>
+                            {
+                            isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Loading ... </Text></View> ):
+                            (
                             
-                        </View>
-                        )
-                    } 
-            </ScrollView>
+                                    <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100}}>
+                                        {
+                                            producteng.map((product)=>{
+                                                return (
+
+                                                    <TouchableOpacity key={product.product_id} style={{padding: 20,height:250,borderRadius: 10, margin: 5,backgroundColor: "#edefea", width:width}} onPress={()=> navigation.navigate('ProductDetails', {product_id: product.product_id, name: 'ProductDetails' })}>
+                                                        <View styles={{padding: 10, alignItems: 'center'}}>
+                                                            <Image source={{uri: `http://197.243.14.102:4000/uploads/${product.image}`}} style={{ borderRadius: 5,width: 150, height: 170}} />
+                                                            <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10,paddingTop:10, fontSize: 13, textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{product.name}</Text>
+                                                            <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10, fontSize: 10, textTransform: 'capitalize',fontFamily: 'Roboto_500Medium'}}>{product.category}</Text>
+                                                        </View>
+                                                    </TouchableOpacity>
+                                                    
+                    
+                                                )
+                                            })
+                                        }
+                                        
+                                    </View>
+                                    )
+                                } 
+                        </ScrollView>
+                    
+                    }
+                </>
             }
             
 
