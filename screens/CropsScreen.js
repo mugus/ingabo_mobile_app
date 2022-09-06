@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, Text, View, SafeAreaView,ScrollView, TouchableOpacity,StatusBar } from 'react-native';
+import { Image, StyleSheet, Text, View, SafeAreaView,ScrollView, TouchableOpacity,StatusBar,TextInput } from 'react-native';
 import { useFonts,Roboto_500Medium } from '@expo-google-fonts/roboto';
 import axios from 'axios';
 import { SpeedDial, Input, Icon, BottomSheet, Button, ListItem  } from '@rneui/themed';
@@ -24,6 +24,11 @@ export default function CropsScreen({navigation}){
     const [phone, setPhone] = useState("");
     const [message, setMessage] = useState("");
 
+    const [ searching, setSearching ] = useState(false);
+    const [ cropsearch, setCropsearch] = useState([])
+    const [searchkey, setSearchkey] = useState("");
+    const [ isloading, setIsloading ] = useState(true);
+
     const getLang = async() => {
         try {
             const item = JSON.parse(
@@ -38,7 +43,7 @@ export default function CropsScreen({navigation}){
         const getKinyaCrops = () => {
             axios.get('http://197.243.14.102:4000/api/v1/crops/kin').then(res => {
                 setCropkin(res.data.crops);
-                    console.log("Kinya crops");
+                setIsloading(false);
                     // console.log("crops", res.data.crops);
                 }).catch(err=>{
                     console.log(err);
@@ -47,7 +52,7 @@ export default function CropsScreen({navigation}){
         const getEngCrops = () => {
             axios.get('http://197.243.14.102:4000/api/v1/crops/en').then(res => {
                 setCropeng(res.data.crops);
-                    console.log("crops English");
+                setIsloading(false);
                     // console.log("crops", res.data.crops);
                 }).catch(err=>{
                     console.log(err);
@@ -58,6 +63,40 @@ export default function CropsScreen({navigation}){
 const OpenStore = async () => {
     await Linking.openURL('https://ingabo.store');
 }
+
+
+const handleSearch = async()=> {
+    setSearching(true);
+    if(searchkey === ''){
+        alert("Search Field is required")
+        getKinyaCrops()
+        getEngCrops()
+    }else{
+
+        await axios.get(`http://197.243.14.102:4000/api/v1/crops/search/${lang}/${searchkey}`).then(res => {
+            setCropkin(res.data.crops);
+            setCropeng(res.data.crops);
+            setCropsearch(res.data.crops)
+            setSearching(false);
+            // setLang(language)
+            // producteng ? setisready(false) : setisready(true)
+            // productkin ? setisready(false) : setisready(true)
+            }).catch(err=>{
+                if(err.response.data.message==="No result found"){
+            //     setErrormsg(err.response.data.message);
+                    setSearching(false);
+                    getKinyaCrops()
+                    getEngCrops()
+                    lang===1 ? alert("Ntago bibonetse") : alert(err.response.data.message)
+                }else{
+                    console.log(err);
+                }
+                // console.log(err);
+            })
+
+    }
+}
+
 
 
 const handleContactTeam = async () => {
@@ -92,54 +131,118 @@ const handleContactTeam = async () => {
       }, [])
 
 if (!fontsLoaded) {
-    return <><Text style={{fontFamily: 'Roboto_500Medium'}}>Loading ...</Text></>;
+    return <><Text style={{fontFamily: 'Roboto_500Medium',fontSize: 16, padding: 20, textAlign: 'center'}}>Loading ...</Text></>;
 } else {
     return(
         <SafeAreaView>
             <StatusBar backgroundColor = "#fff" barStyle = "dark-content" hidden = {false} translucent = {true}/>
-            <ScrollView style={{paddingRight: 10}}>
-        
-                {
-                    lang === 1 ?
-                    <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 10}}>
+
+            <View style={{padding: 10, flexDirection: 'row'}}>
+                <View style={style.searchContainer}>
+                    <Icon name="search" size={20} style={{marginLeft: 20}} />
+                    <TextInput placeholder="Search" onChangeText={newText => setSearchkey(newText)} defaultValue={searchkey} style={style.input} />
+                </View>
+                <TouchableOpacity onPress={handleSearch} style={style.sortBtn}>
+                    <Icon name="search" size={25} color="#fff" />
+                </TouchableOpacity>
+            </View>
+
+            {searching ?
+                    <><Text style={{fontFamily: 'Roboto_500Medium', fontSize: 16, padding: 20, textAlign: 'center'}}>Birimo gukorwa ...</Text></>
+                :
+
+                // <><Text style={{fontFamily: 'Roboto_500Medium', fontSize: 16, padding: 20, textAlign: 'center'}}>BYakozwe ...</Text></>
+                <ScrollView style={{paddingRight: 10}}>
+            
                     {
-                        cropkin.map((crop)=>{
-                            return (
-                                
-                        <TouchableOpacity style={{width: 170, height: 240, backgroundColor: '#edefea', borderRadius: 10, padding: 10}} key={crop.crop_id} onPress={()=> navigation.navigate('DianosisScreen', {crop_id: crop.crop_id, name: 'DianosisScreen' })}>
+                        lang === 1 ?
+                        <>
+                        {
+                            isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Birimo gukorwa ... </Text></View> ):
+                            (
+                                <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 10}}>
+                                    {
+                                        cropkin.map((crop, index)=>{
+                                            return (
+                                                    
+                                            <TouchableOpacity style={{width: 170, height: 240, backgroundColor: '#edefea', borderRadius: 10, padding: 10}} key={index} onPress={()=> navigation.navigate('DianosisScreen', {crop_id: crop.crop_id, name: 'DianosisScreen' })}>
 
-                            <View style={{width: 150, height: 210,alignItems: 'center'}}>
-                                <Image source={{uri: `http://197.243.14.102:4000/uploads/${crop.image}`}} style={{width: 150, height: 170,borderRadius: 5}} />
-                                <Text style={{color: '#347464', fontWeight: 'bold',textTransform: 'uppercase', fontSize: 13, paddingBottom: 10, padding: 10,fontFamily: 'Roboto_500Medium'}}>{crop.name}</Text>
-                            </View>    
-                        </TouchableOpacity>
+                                                <View style={{width: 150, height: 210,alignItems: 'center'}}>
+                                                    <Image source={{uri: `http://197.243.14.102:4000/uploads/${crop.image}`}} style={{width: 150, height: 170,borderRadius: 5}} />
+                                                    <Text style={{color: '#347464', fontWeight: 'bold',textTransform: 'uppercase', fontSize: 13, paddingBottom: 10, padding: 10,fontFamily: 'Roboto_500Medium'}}>{crop.name}</Text>
+                                                </View>    
+                                            </TouchableOpacity>
+                                            )
+                                        })
+                                    }
+
+                                </View>
+
                             )
-                        })
-                    }
+                        }
+                        </>
+                        :
 
-                    </View>
-                    :
-                    <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 10}}>
-                    {
-                        cropeng.map((crop)=>{
-                            return (
-                                
-                        <TouchableOpacity style={{width: 170, height: 240, backgroundColor: '#edefea', borderRadius: 10, padding: 10}} key={crop.crop_id} onPress={()=> navigation.navigate('DianosisScreen', {crop_id: crop.crop_id, name: 'DianosisScreen' })}>
-                                    <View style={{width: 150, height: 210,alignItems: 'center'}}>
-                                        <Image source={{uri: `http://197.243.14.102:4000/uploads/${crop.image}`}} style={{width: 150, height: 170}} />
-                                        <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 13,textTransform: 'uppercase', paddingBottom: 10, padding: 10}}>{crop.name}</Text>
-                                    </View>    
-                        </TouchableOpacity>
+                        <>
+                        {
+                            isloading ? (<View style={{ flex: 1, alignItems: 'center', justifyContent: 'center'}}><Text style={{ fontSize: 18, padding: 20, fontWeight: 'bold'}}>Loading... </Text></View> ):
+                            (
+                                <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 10}}>
+                                    {
+                                        cropeng.map((crop, index)=>{
+                                            return (
+                                                
+                                        <TouchableOpacity style={{width: 170, height: 240, backgroundColor: '#edefea', borderRadius: 10, padding: 10}} key={index} onPress={()=> navigation.navigate('DianosisScreen', {crop_id: crop.crop_id, name: 'DianosisScreen' })}>
+
+                                            <View style={{width: 150, height: 210,alignItems: 'center'}}>
+                                                <Image source={{uri: `http://197.243.14.102:4000/uploads/${crop.image}`}} style={{width: 150, height: 170,borderRadius: 5}} />
+                                                <Text style={{color: '#347464', fontWeight: 'bold',textTransform: 'uppercase', fontSize: 13, paddingBottom: 10, padding: 10,fontFamily: 'Roboto_500Medium'}}>{crop.name}</Text>
+                                            </View>    
+                                        </TouchableOpacity>
+                                            )
+                                        })
+                                    }
+
+                                </View>
+
                             )
-                        })
+                        }
+                        </>
+
+
+                        // <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 10}}>
+                        // {
+                        //     cropeng.map((crop, index)=>{
+                        //         return (
+                                    
+                        //     <TouchableOpacity style={{width: 170, height: 240, backgroundColor: '#edefea', borderRadius: 10, padding: 10}} key={index} onPress={()=> navigation.navigate('DianosisScreen', {crop_id: crop.crop_id, name: 'DianosisScreen' })}>
+                        //                 <View style={{width: 150, height: 210,alignItems: 'center'}}>
+                        //                     <Image source={{uri: `http://197.243.14.102:4000/uploads/${crop.image}`}} style={{width: 150, height: 170}} />
+                        //                     <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 13,textTransform: 'uppercase', paddingBottom: 10, padding: 10}}>{crop.name}</Text>
+                        //                 </View>    
+                        //     </TouchableOpacity>
+                        //         )
+                        //     })
+                        // }
+
+                        // </View>
+
                     }
+                        
+            
+                </ScrollView>
 
-                    </View>
+            }
 
-                }
-                    
-           
-            </ScrollView>
+
+
+
+
+
+
+
+
+
 
 
 <BottomSheet modalProps={{}} isVisible={isVisible}>
@@ -234,3 +337,40 @@ if (!fontsLoaded) {
         );
     }
 }
+
+
+const style = StyleSheet.create({
+    searchContainer: {
+        height: 35,
+        backgroundColor: "#D3D3D3",
+        borderRadius: 10,
+        flex: 1,
+        flexDirection: 'row',
+        alignItems: 'center',
+        },
+    categoryContainer: {
+        flex: 1,
+        flexDirection: 'row',
+        marginTop: 30,
+        marginBottom: 20,
+        justifyContent : 'space-between'
+    },
+    sortBtn: {
+        marginLeft: 10,
+        height: 35,
+        width: 50,
+        backgroundColor: "#347464",
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius:10
+      },
+
+    input: {
+    fontSize: 13,
+    fontWeight: 'bold',
+    flex: 1,
+    color: "#000",
+    marginLeft: 20
+    },
+
+})

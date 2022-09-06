@@ -77,7 +77,7 @@ const handleSearch = async() => {
             if(err.response.data.message==="No result found"){
         //     setErrormsg(err.response.data.message);
                 setSearching(false);
-                lang ? alert("Ntago bibonetse") : alert(err.response.data.message)
+                lang===1 ? alert("Ntago bibonetse") : alert(err.response.data.message)
             }else{
                 console.log(err);
             }
@@ -184,7 +184,7 @@ const handleContactTeam = async () => {
 
     console.log("Lang: ",lang);
 if (!fontsLoaded) {
-    return <><Text style={{fontFamily: 'Roboto_500Medium'}}>Loading ...</Text></>;
+    return <><Text style={{fontFamily: 'Roboto_500Medium',fontSize: 16, padding: 20, textAlign: 'center'}}>Loading ...</Text></>;
 } else {
     return(
         <SafeAreaView>
