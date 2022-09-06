@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from "react";
-import { Image, StyleSheet, Text, View, SafeAreaView,ScrollView, TouchableOpacity,StatusBar,TextInput } from 'react-native';
+import { Image, StyleSheet, Text, View, SafeAreaView,ScrollView, TouchableOpacity,StatusBar,TextInput,RefreshControl } from 'react-native';
 import { useFonts,Roboto_500Medium } from '@expo-google-fonts/roboto';
 import axios from 'axios';
 import { SpeedDial, Input, Icon, BottomSheet, Button, ListItem  } from '@rneui/themed';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Storage } from 'expo-storage'
 const KEY = '@@KEY';
-
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
 
 
 export default function CropsScreen({navigation}){
     let [fontsLoaded] = useFonts({Roboto_500Medium});
+    const [refreshing, setRefreshing] = React.useState(false);
+
+
     const [crop, setCrop] = useState([]);
     const [cropkin, setCropkin] = useState([]);
     const [cropeng, setCropeng] = useState([]);
@@ -29,6 +34,12 @@ export default function CropsScreen({navigation}){
     const [searchkey, setSearchkey] = useState("");
     const [ isloading, setIsloading ] = useState(true);
 
+
+    const onRefresh = React.useCallback(() => {
+        getKinyaCrops()
+        getEngCrops()
+      }, []);
+      
     const getLang = async() => {
         try {
             const item = JSON.parse(
@@ -40,10 +51,13 @@ export default function CropsScreen({navigation}){
         }
       }
 
+
         const getKinyaCrops = () => {
             axios.get('http://197.243.14.102:4000/api/v1/crops/kin').then(res => {
                 setCropkin(res.data.crops);
                 setIsloading(false);
+                setRefreshing(true);
+                wait(2000).then(() => setRefreshing(false));
                     // console.log("crops", res.data.crops);
                 }).catch(err=>{
                     console.log(err);
@@ -53,6 +67,8 @@ export default function CropsScreen({navigation}){
             axios.get('http://197.243.14.102:4000/api/v1/crops/en').then(res => {
                 setCropeng(res.data.crops);
                 setIsloading(false);
+                setRefreshing(true);
+                wait(2000).then(() => setRefreshing(false));
                     // console.log("crops", res.data.crops);
                 }).catch(err=>{
                     console.log(err);
@@ -152,7 +168,12 @@ if (!fontsLoaded) {
                 :
 
                 // <><Text style={{fontFamily: 'Roboto_500Medium', fontSize: 16, padding: 20, textAlign: 'center'}}>BYakozwe ...</Text></>
-                <ScrollView style={{paddingRight: 10}}>
+                <ScrollView style={{paddingRight: 10}} refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={onRefresh}
+                    />
+                    }>
             
                     {
                         lang === 1 ?
@@ -209,23 +230,6 @@ if (!fontsLoaded) {
                         }
                         </>
 
-
-                        // <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 10}}>
-                        // {
-                        //     cropeng.map((crop, index)=>{
-                        //         return (
-                                    
-                        //     <TouchableOpacity style={{width: 170, height: 240, backgroundColor: '#edefea', borderRadius: 10, padding: 10}} key={index} onPress={()=> navigation.navigate('DianosisScreen', {crop_id: crop.crop_id, name: 'DianosisScreen' })}>
-                        //                 <View style={{width: 150, height: 210,alignItems: 'center'}}>
-                        //                     <Image source={{uri: `http://197.243.14.102:4000/uploads/${crop.image}`}} style={{width: 150, height: 170}} />
-                        //                     <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 13,textTransform: 'uppercase', paddingBottom: 10, padding: 10}}>{crop.name}</Text>
-                        //                 </View>    
-                        //     </TouchableOpacity>
-                        //         )
-                        //     })
-                        // }
-
-                        // </View>
 
                     }
                         
