@@ -2,7 +2,7 @@
   "expo": {
     "name": "ingabo_mobile_app",
     "slug": "ingabo_mobile_app",
-    "version": "1.5.0",
+    "version": "1.6.0",
     "orientation": "default",
     "icon": "./assets/main-logo1.png",
     "userInterfaceStyle": "light",
@@ -21,7 +21,7 @@
       "supportsTablet": true
     },
     "android": {
-      "versionCode": 7,
+      "versionCode": 8,
       "adaptiveIcon": {
         "foregroundImage": "./assets/main-logo1.png",
         "backgroundColor": "#FFFFFF"
