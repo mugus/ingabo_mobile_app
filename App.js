@@ -20,6 +20,7 @@ import SafetyLabels from './screens/SafetyLabels';
 import SafetyApplication from './screens/SafetyApplication';
 import DianosisDetailScreen from './screens/DianosisDetailScreen';
 import Browser from './screens/Browser';
+import SurveyForm from './screens/components/SurveyForm';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
@@ -204,6 +205,22 @@ function App() {
           component={SafetyLabels}
           options={{
             title: 'Ibirango',
+            headerStyle: {
+              backgroundColor: '#fff',
+              right: 0
+            },
+            headerTintColor: '#347464',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
+
+        <Stack.Screen
+          name="SurveyForm"
+          component={SurveyForm}
+          options={{
+            title: 'Survey',
             headerStyle: {
               backgroundColor: '#fff',
               right: 0
@@ -428,6 +445,22 @@ function App() {
             },
           }}
           />
+
+        <Stack.Screen
+          name="SurveyForm"
+          component={SurveyForm}
+          options={{
+            title: 'Survey',
+            headerStyle: {
+              backgroundColor: '#fff',
+              right: 0
+            },
+            headerTintColor: '#347464',
+            headerTitleStyle: {
+              fontWeight: 'bold',
+            },
+          }}
+        />
 
         <Stack.Screen
           name="SafetyTransport"

@@ -1,10 +1,13 @@
-import react, { useState, useEffect } from "react";
-import { Image, StyleSheet, Text, View, StatusBar, Platform, SafeAreaView,ScrollView, Button,TouchableOpacity, TextInput, requireNativeComponent  } from 'react-native';
+import React,{ useState, useEffect } from "react";
+import { RefreshControl, Image, StyleSheet,Alert, Text, View, StatusBar, Platform, SafeAreaView,ScrollView, Button,TouchableOpacity, TextInput, requireNativeComponent  } from 'react-native';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import * as Linking from 'expo-linking';
 import { Avatar, Badge, Icon, withBadge } from '@rneui/themed';
 import { Storage } from 'expo-storage'
 import axios from 'axios';
+import color from "./layouts/color";
+import OptionModal from './components/OptionModal';
+
 const KEY = '@@KEY';
 import {
     useFonts,
@@ -23,7 +26,24 @@ import {
   } from '@expo-google-fonts/roboto';
 
 const width = '47%';
+
+const wait = (timeout) => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  }
+
+
+  
 export default function Home({navigation}){
+    const [refreshing, setRefreshing] = React.useState(false);
+    const [showModal, setShowModal] = useState(true)
+    const onRefresh = React.useCallback(() => {
+        setShowModal(true)
+        setRefreshing(true);
+        wait(2000).then(() => setRefreshing(false));
+      }, []);
+
+
+
     let [fontsLoaded] = useFonts({
         Roboto_100Thin,
         Roboto_100Thin_Italic,
@@ -53,18 +73,26 @@ export default function Home({navigation}){
     }
 
 
-    useEffect(() => {
-        getLang()
-    }, []);
-
-    
-  
     const OpenStore = async () => {
         Linking.openURL('https://ingabo.store');
     }
   
+    const startSurvey = () => {
+        Alert.alert("Just last step", "Are you going to fill our survey form as: ", [
+            {
+                text: 'Customer',
+                onPress: () => navigation.navigate('SurveyForm', {customer: 0, name: 'Customer Survey' })
+            },{
+                text: 'Guest',
+                onPress: () => navigation.navigate('SurveyForm', {customer: 1, name: 'Guest Survey' })
+            }
+        ])
+    }
 
 
+    useEffect(() => {
+        getLang()
+    }, []);
     
  if (!fontsLoaded) {
     return <><Text>Loading ...</Text></>;
@@ -73,7 +101,7 @@ export default function Home({navigation}){
         <SafeAreaView style={{flex:1, paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0}}>
             <StatusBar backgroundColor = "#fff" barStyle = "dark-content" hidden = {false} translucent = {true}/>
 
-            <ScrollView>
+            <ScrollView refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}>
             {
             lang === 1 ? 
             <>
@@ -168,37 +196,7 @@ export default function Home({navigation}){
 
             </ScrollView>
 
-
-
-            {/* <ScrollView>
-            <View style={{flex: 1, flexDirection: 'row',flexWrap: 'wrap', justifyContent: 'space-around', top: 5,paddingTop: 5, paddingBottom: 100,  }}>
-
-                {
-                    cropsearch.map(
-                        (data, index)=>{
-                            return (
-                                <TouchableOpacity key={index} style={{padding: 10,height:250,borderRadius: 10, margin: 5,backgroundColor: "#edefea", width:width}} onPress={()=> navigation.navigate('DianosisScreen', {crop_id: data.crop_id, name: 'DianosisScreen' })}>
-                                    <View styles={{padding: 10, alignItems: 'center'}}>
-                                        <Image source={{uri: `http://197.243.14.102:4000/uploads/${data.image}`}} style={{ borderRadius: 5,width: 150, height: 170}} />
-                                        <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10,paddingTop:10, fontSize: 13, textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{data.name}</Text>
-                                        <Text style={{color: '#000', fontWeight: 'bold',paddingLeft:10, fontSize: 10, textTransform: 'capitalize',fontFamily: 'Roboto_500Medium'}}>{data.diagnosis_name}</Text>
-                                    </View>
-                                </TouchableOpacity>
-
-
-                                // <TouchableOpacity key={index} style={{padding: 30,height:160,borderRadius: 10, margin: 5,backgroundColor: "#5d806f", width:width,alignItems: 'center', justifyContent: 'center'}} onPress={ OpenStore }>
-                                //     <View styles={{padding: 10, alignItems: 'center'}}>
-                                //         <MaterialCommunityIcons name="cart-arrow-right" size={50} color="#fff" style={{ paddingLeft: 23 }}/>
-                                //         <Text style={{color: '#fff', fontWeight: 'bold',padding:5, fontSize: 20}}>Our Shop</Text>
-                                //     </View>
-                                // </TouchableOpacity>
-                            )
-                        }
-                    )
-                }
-            </View>
-
-            </ScrollView> */}
+            <OptionModal visible = {showModal} onPressContinue = {startSurvey} onClose={() => setShowModal(false)}/>
 
 
         </SafeAreaView>
