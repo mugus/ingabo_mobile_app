@@ -117,9 +117,11 @@ if (!fontsLoaded) {
                                         <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 14,fontFamily: 'Roboto_500Medium'}}>{productdetails.name}</Text>
                                         <Text style={{color: '#347455', fontWeight: 'bold', fontSize: 12,fontFamily: 'Roboto_500Medium_Italic'}}>({productdetails.category})</Text>
                                         <View style={{top: 10}}>
-                                            <Text style={{fontSize: 12, paddingRight: 5}}>
-                                                {productdetails.description}
-                                            </Text>
+                                            <ScrollView nestedScrollEnabled={true} style={{height: 200}}>
+                                                <Text style={{fontSize: 12, paddingRight: 5}}>
+                                                    {productdetails.description}
+                                                </Text>
+                                            </ScrollView>
                                             <Text></Text>
                                             
 
@@ -161,9 +163,11 @@ if (!fontsLoaded) {
                                         <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 14,fontFamily: 'Roboto_500Medium'}}>{productdetails.name}</Text>
                                         <Text style={{color: '#347455', fontWeight: 'bold', fontSize: 12,fontFamily: 'Roboto_500Medium_Italic'}}>({productdetails.category})</Text>
                                         <View style={{top: 10}}>
-                                            <Text style={{fontSize: 12, paddingRight: 5,fontFamily: 'Roboto_500Medium'}}>
-                                                {productdetails.description}
-                                            </Text>
+                                            <ScrollView nestedScrollEnabled={true} style={{height: 200}}>
+                                                <Text style={{fontSize: 12, paddingRight: 5}}>
+                                                    {productdetails.description}
+                                                </Text>
+                                            </ScrollView>
                                             <Text></Text>
                                         </View>
                                     </View>
@@ -178,7 +182,8 @@ if (!fontsLoaded) {
                                         </Text>
                                         <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 13, left: 10,fontStyle: 'italic'}}>Application</Text>
                                         <Text style={{fontSize: 12, left: 15,paddingTop: 10,paddingRight:15,fontFamily: 'Roboto_500Medium'}}>
-                                            {productdetails.application}</Text>
+                                            {productdetails.application}
+                                        </Text>
                                     </View>
                                 </View>
                                 

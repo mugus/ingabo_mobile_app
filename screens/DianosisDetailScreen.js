@@ -98,8 +98,7 @@ if (!fontsLoaded) {
                                 width: 170,
                                 backgroundColor: 'black',
                                 borderWidth: 2,
-                                borderColor: 'white',
-                                borderRadius: 20,
+                                borderColor: '#fff',
                             }}
                             type="solid"
                             size="sm"
@@ -120,16 +119,18 @@ if (!fontsLoaded) {
                             <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 16}}>{details.diagnosis_name}</Text>
                             <Text style={{color: '#347464', fontSize: 15, left: 10, fontStyle: 'italic'}}>Ibimenyetso</Text>
                             <View style={{top: 10}}>
-                                <Text style={{fontSize: 12, paddingRight: 5}}>
-                                    {details.symptoms}
-                                </Text>
+                                <ScrollView nestedScrollEnabled={true} style={{height: 200}}>
+                                    <Text style={{fontSize: 12, paddingRight: 5}}>
+                                        {details.symptoms}
+                                    </Text>
+                                </ScrollView>
                                 <Text></Text>
                                         <Button
                                             buttonStyle={{
                                                 backgroundColor: '#347464',
                                                 borderWidth: 2,
-                                                borderColor: 'white',
-                                                borderRadius: 13,
+                                                borderColor: '#fff',
+                                                borderRadius: 5,
                                             }}
                                             type="solid"
                                             size="sm"
@@ -167,8 +168,8 @@ if (!fontsLoaded) {
                                     buttonStyle={{
                                         backgroundColor: '#347464',
                                         borderWidth: 2,
-                                        borderColor: 'white',
-                                        borderRadius: 20,
+                                        bborderColor: '#fff',
+                                        borderRadius: 5,
                                     }}
                                     type="solid"
                                     size="sm"
@@ -197,8 +198,7 @@ if (!fontsLoaded) {
                                 width: 170,
                                 backgroundColor: 'black',
                                 borderWidth: 2,
-                                borderColor: 'white',
-                                borderRadius: 20,
+                                borderRadius: 5,
                             }}
                             type="solid"
                             size="sm"
@@ -218,25 +218,29 @@ if (!fontsLoaded) {
                     <View style={{flex: 1, flexDirection: 'column',padding: 5, width:'100%'}}>
                         <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 16,fontFamily: 'Roboto_500Medium'}}>{details.diagnosis_name}</Text>
                         <Text style={{color: '#347464', fontSize: 15, left: 10, fontStyle: 'italic'}}>Symptoms</Text>
-                        <View style={{top: 10}}>
-                            <Text style={{fontSize: 12, paddingRight: 5,fontFamily: 'Roboto_500Medium'}}>
-                                {details.symptoms}
-                            </Text>
-                            <Text></Text>
-                            <Button
-                                buttonStyle={{
-                                    backgroundColor: '#347464',
-                                    borderWidth: 2,
-                                    borderColor: 'white',
-                                    borderRadius: 20,
-                                }}
-                                type="solid"
-                                size="sm"
-                                title="Shop Product"
-                                onPress={OpenStore}
-                                />
+                            <View style={{top: 10}}>
+                                <ScrollView nestedScrollEnabled={true} style={{height: 200}}>
+                                <Text style={{fontSize: 12, paddingRight: 5,fontFamily: 'Roboto_500Medium'}}>
+                                    {details.symptoms}
+                                </Text>
+                                </ScrollView>
+                                <Text></Text>
+                                <Button
+                                    buttonStyle={{
+                                        backgroundColor: '#347464',
+                                        borderWidth: 2,
+                                        borderColor: '#fff',
+                                        borderRadius: 5,
+                                    }}
+                                    type="solid"
+                                    size="sm"
+                                    title="Shop Product"
+                                    onPress={OpenStore}
+                                    />
 
-                        </View>
+                            </View>
+
+                        
                     </View>
                     {/* <TouchableOpacity onPress={()=> navigation.navigate('DianosisScreen', { name: 'DianosisScreen' })}>
                     </TouchableOpacity> */}
@@ -266,8 +270,8 @@ if (!fontsLoaded) {
                                  buttonStyle={{
                                     backgroundColor: '#347464',
                                     borderWidth: 2,
-                                    borderColor: 'white',
-                                    borderRadius: 13,
+                                    borderColor: '#fff',
+                                    borderRadius: 5,
                                 }}
                                 type="solid"
                                 size="sm"
