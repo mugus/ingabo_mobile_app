@@ -1,15 +1,59 @@
-import React from 'react';
+import React,{ useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Dimensions, Modal, StatusBar, TouchableWithoutFeedback } from 'react-native'
 import { AntDesign } from '@expo/vector-icons';
 import color from '../layouts/color';
+import { Storage } from 'expo-storage'
+const KEY = '@@KEY';
 
 
 export default function OptionModal({visible, onClose, onPressContinue}) {
+    const [lang, setLang] = useState("");
+    const getLang = async() => {
+        try {
+            const item = JSON.parse(
+                await Storage.getItem({ key: KEY })
+              )
+              setLang(item)
+            
+        } catch(err) {
+            console.log("Error at Selecting Lang", err);
+        }
+    }
+console.log("Modal lang", lang);
+    useEffect(()=> {
+        getLang()
+      }, [])
+
+
+
     return(
         <>
+        {
+            lang === 1 ?
             <Modal animationType='fade' transparent={true} visible={visible}>
                 <View style={styles.modal}>
-                    <Text style={styles.title} numberOfLines={2}>Help us to survey our Products</Text>
+                    <Text style={styles.title} numberOfLines={2}>Dufashe mu isuzuma ry'ibicuruzwa byacu</Text>
+                    <View style={styles.optionContainer}>
+                        <TouchableWithoutFeedback onPress={onPressContinue}>
+                            <Text style={styles.option}>Komeza 
+                                <AntDesign name="doubleright" size={14} color={color.APP_PRIMARY} />
+                                <AntDesign name="doubleright" size={14} color={color.APP_PRIMARY} />
+                                <AntDesign name="doubleright" size={14} color={color.APP_PRIMARY} />
+                            </Text>
+                        </TouchableWithoutFeedback>
+                        <TouchableWithoutFeedback onPress={onClose}>
+                            <Text style={styles.optiondecline}>Bize nyuma</Text>
+                        </TouchableWithoutFeedback>
+                    </View>
+                </View>
+                <TouchableWithoutFeedback onPress={onClose}>
+                    <View style={styles.modalBG} />
+                </TouchableWithoutFeedback>
+            </Modal>
+            :
+            <Modal animationType='fade' transparent={true} visible={visible}>
+                <View style={styles.modal}>
+                    <Text style={styles.title} numberOfLines={2}>Help us evaluate our products</Text>
                     <View style={styles.optionContainer}>
                         <TouchableWithoutFeedback onPress={onPressContinue}>
                             <Text style={styles.option}>Continue 
@@ -27,6 +71,7 @@ export default function OptionModal({visible, onClose, onPressContinue}) {
                     <View style={styles.modalBG} />
                 </TouchableWithoutFeedback>
             </Modal>
+        }
         </>
     )
 }

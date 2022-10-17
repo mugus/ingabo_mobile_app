@@ -76,8 +76,19 @@ export default function Home({navigation}){
     const OpenStore = async () => {
         Linking.openURL('https://ingabo.store');
     }
-  
+    
     const startSurvey = () => {
+        lang === 1 ? 
+        Alert.alert("Ikibazo cya nyuma", "Ugiye kuzuza nka: ", [
+            {
+                text: 'Umukiriya',
+                onPress: () => navigation.navigate('SurveyForm', {customer: 0, name: 'Customer Survey' })
+            },{
+                text: 'Umushyitsi',
+                onPress: () => navigation.navigate('SurveyForm', {customer: 1, name: 'Guest Survey' })
+            }
+        ])
+        :
         Alert.alert("Just last step", "Are you going to fill our survey form as: ", [
             {
                 text: 'Customer',
