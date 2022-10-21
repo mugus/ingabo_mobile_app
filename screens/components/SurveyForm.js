@@ -48,15 +48,24 @@ export default function SurveyForm({navigation, route}) {
       });
       const [radioButtons, setRadioButtons] = useState(radioButtonsData)
 
-      function onPressRadioButton(radioButtonsArray) {
-          setRadioButtons(radioButtonsArray);
-          console.log("data", radioButtons);
-      }
-
 
     const { customer, name } = route.params;
     const [lang, setLang] = useState("");
-    const [value, setValue] = useState(0);
+    const [radiovalue, setRadiovalue] = useState('');
+
+    
+    function onPressRadioButton(radioButtonsArray) {
+        setRadioButtons(radioButtonsArray);
+
+        radioButtonsArray.map((data)=> {
+            if(data.selected){
+                setRadiovalue(data.value)
+            }else{
+                setRadiovalue('')
+            }
+        })
+        
+    }
 
     const getLang = async() => {
         try {
