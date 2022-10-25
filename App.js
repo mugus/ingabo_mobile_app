@@ -27,6 +27,9 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Text, View, StatusBar, Platform, SafeAreaView,ScrollView, TouchableOpacity } from 'react-native';
 import { Storage } from 'expo-storage'
+
+
+
 const KEY = '@@KEY';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

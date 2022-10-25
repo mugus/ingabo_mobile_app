@@ -16,7 +16,7 @@ const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 import SuccessMsg from './SuccessMsg';
 import {Picker} from '@react-native-picker/picker';
-// import Slider from '@react-native-community/slider';
+import * as Device from 'expo-device';
 
 
 
@@ -64,7 +64,7 @@ export default function SurveyForm({navigation, route}) {
 
 
 
-
+console.log("Device Survey: ",Device.osBuildId);
 
     const handleSuryeySubmit = () => {
         if(customer === 1){
@@ -77,7 +77,8 @@ export default function SurveyForm({navigation, route}) {
                     lastname: lname,
                     lan_id: lang,
                     hear_about: hear_about,
-                    improvement: improve
+                    improvement: improve,
+                    deviceID: Device.osBuildId
                 }
                 axios.post('http://197.243.14.102:4000/api/v1/surveys/guest', data)
                 .then(res => {
@@ -115,7 +116,8 @@ export default function SurveyForm({navigation, route}) {
                     missing: missing,
                     comparison: comparison,
                     oftenusage: oftenusage,
-                    improve: improve
+                    improve: improve,
+                    deviceID: Device.osBuildId
                 }
                 axios.post('http://197.243.14.102:4000/api/v1/surveys/customer', data)
                 .then(res => {
@@ -310,6 +312,7 @@ if (!fontsLoaded) {
                                         onValueChange={(itemValue, itemIndex) =>
                                             setOftenusage(itemValue)
                                         }>
+                                        <Picker.Item label="Hitamo" value="" />
                                         <Picker.Item label="Hejuru y'inshuro 3 mu mwaka" value="Hejuru y'inshuro 3 mu mwaka" />
                                         <Picker.Item label="Inshuro 3 mu mwaka" value="Inshuro 3 mu mwaka" />
                                         <Picker.Item label="Inshuro 2 mu mwaka" value="Inshuro 2 mu mwaka" />
@@ -345,6 +348,7 @@ if (!fontsLoaded) {
                                         onValueChange={(itemValue, itemIndex) =>
                                             setUsage(itemValue)
                                         }>
+                                        <Picker.Item label="Hitamo" value="" />
                                         <Picker.Item label="Yego biroroshye" value="Biroroshye" />
                                         <Picker.Item label="Hakenerwa umukozi wa INGABO" value="Hakenerwa umukozi wa INGABO" />
                                         <Picker.Item label="Biragoye cyane" value="Biragoye cyane" />
@@ -421,6 +425,7 @@ if (!fontsLoaded) {
                                         onValueChange={(itemValue, itemIndex) =>
                                             setOftenusage(itemValue)
                                         }>
+                                        <Picker.Item label="Select" value="" />
                                         <Picker.Item label="More than 3 times every year" value="More than 3 times every year" />
                                         <Picker.Item label="Quarterly" value="Quarterly" />
                                         <Picker.Item label="2 Times every year" value="2 Times every year" />
@@ -455,6 +460,7 @@ if (!fontsLoaded) {
                                         onValueChange={(itemValue, itemIndex) =>
                                             setUsage(itemValue)
                                         }>
+                                        <Picker.Item label="Select" value="" />
                                         <Picker.Item label="Very Easy" value="Very Easy" />
                                         <Picker.Item label="Require assistances from INGABO team" value="Require assistances from INGABO" />
                                         <Picker.Item label="Very hard to use" value="Very hard to use" />
@@ -560,6 +566,7 @@ const styles =  StyleSheet.create({
         paddingTop: 20,
         width: width-30,
         paddingLeft: 10,
-        color: color.APP_PRIMARY
+        color: color.APP_PRIMARY,
+        backgroundColor: color.APP_PRIMARY
     }
 })

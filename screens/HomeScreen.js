@@ -7,6 +7,8 @@ import { Storage } from 'expo-storage'
 import axios from 'axios';
 import color from "./layouts/color";
 import OptionModal from './components/OptionModal';
+import * as Device from 'expo-device';
+
 
 const KEY = '@@KEY';
 import {
@@ -35,9 +37,13 @@ const wait = (timeout) => {
   
 export default function Home({navigation}){
     const [refreshing, setRefreshing] = React.useState(false);
-    const [showModal, setShowModal] = useState(true)
+    const [showModal, setShowModal] = React.useState(false)
+    const [isSubmitted, setIsSubmitted] = React.useState(false)
+
+    const [surveyGuest, setSurveyGuest] = useState([])
+    const [surveyCustomer, setSurveyCustomer] = useState([])
     const onRefresh = React.useCallback(() => {
-        setShowModal(true)
+        // isSubmitted ? setShowModal(false) : setShowModal(true)
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
       }, []);
@@ -77,6 +83,36 @@ export default function Home({navigation}){
         Linking.openURL('https://ingabo.store');
     }
     
+    // check if user already submit survey form
+
+    const CheckSubmitted = async() => {
+        await  axios.get(`http://197.243.14.102:4000/api/v1/surveys/${lang}`)
+        .then(res => {
+            
+            setSurveyGuest(res.data.surveys_guest)
+            setSurveyCustomer(res.data.surveys)
+            setIsSubmitted(false)
+
+        }).catch((error) => {
+            
+            // if(error.response.data.status===403){
+            //     console.log("Message: ",error.response.data.message);
+            // // setMsg(error.response.data.message)
+            // }else if(error.response.data.status===404){
+            //     console.log("Message: ",error.response.data.message);
+            // }else{
+                console.log(error);
+            // }
+            setIsSubmitted(true)
+        });
+        
+        // isSubmitted ? setShowModal(false) : setShowModal(true)
+        // setShowModal(true)
+    }
+
+
+
+    
     const startSurvey = () => {
         lang === 1 ? 
         Alert.alert("Ikibazo cya nyuma", "Ugiye kuzuza nka: ", [
@@ -100,11 +136,15 @@ export default function Home({navigation}){
         ])
     }
 
-
+    // console.log("Device: ",Device.osBuildId);
     useEffect(() => {
+        CheckSubmitted()
+        isSubmitted ? setShowModal(false) : setShowModal(true)
         getLang()
-    }, []);
+    }, [isSubmitted, lang]);
     
+console.log("is Modal show: ", showModal);
+
  if (!fontsLoaded) {
     return <><Text>Loading ...</Text></>;
   } else {
@@ -206,8 +246,8 @@ export default function Home({navigation}){
 
 
             </ScrollView>
-
             <OptionModal visible = {showModal} onPressContinue = {startSurvey} onClose={() => setShowModal(false)}/>
+            
 
 
         </SafeAreaView>

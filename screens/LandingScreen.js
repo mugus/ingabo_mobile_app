@@ -21,7 +21,6 @@ export default function LandingScreen({navigation}){
 
 
 
-
     const onRefresh = React.useCallback(() => {
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
