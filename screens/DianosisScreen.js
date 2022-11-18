@@ -175,10 +175,10 @@ if (!fontsLoaded) {
                     diagnosisdetails.length > 0 &&
                         diagnosisdetails.map((diag)=>{
                             return (
-                            <TouchableOpacity style={{width: 170, height: 220, backgroundColor: '#edefea', borderRadius: 10}}  key={diag.diagnosis_id} onPress={()=>  navigation.navigate('DianosisDetailScreen', {diagnosis_id: diag.diagnosis_id, name: 'DianosisDetailScreen' })}>
+                            <TouchableOpacity style={{width: 170, height: 220,backgroundColor: '#edefea', borderRadius: 10}}  key={diag.diagnosis_id} onPress={()=>  navigation.navigate('DianosisDetailScreen', {diagnosis_id: diag.diagnosis_id, name: 'DianosisDetailScreen' })}>
                                 <View style={{width: 150, height: 210}}>
                                     <Image source={{uri: `http://197.243.14.102:4000/uploads/${diag.diag_image}`}} style={{width: 170, height: 190, borderRadius: 5}} />
-                                    <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 12, paddingBottom: 10, padding: 5,textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{diag.diagnosis_name}</Text>
+                                    <Text style={{color: '#347464', fontWeight: 'bold', fontSize: 12, paddingBottom: 30,textTransform: 'uppercase',fontFamily: 'Roboto_500Medium'}}>{diag.diagnosis_name}</Text>
                                 </View>
                             </TouchableOpacity>
                         )
