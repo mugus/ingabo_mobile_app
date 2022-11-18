@@ -6,7 +6,6 @@ import { Avatar, Badge, Icon, withBadge } from '@rneui/themed';
 import { Storage } from 'expo-storage'
 import axios from 'axios';
 import color from "./layouts/color";
-import OptionModal from './components/OptionModal';
 import * as Device from 'expo-device';
 
 
@@ -37,13 +36,7 @@ const wait = (timeout) => {
   
 export default function Home({navigation}){
     const [refreshing, setRefreshing] = React.useState(false);
-    const [showModal, setShowModal] = React.useState(false)
-    const [isSubmitted, setIsSubmitted] = React.useState(false)
-
-    const [surveyGuest, setSurveyGuest] = useState([])
-    const [surveyCustomer, setSurveyCustomer] = useState([])
     const onRefresh = React.useCallback(() => {
-        // isSubmitted ? setShowModal(false) : setShowModal(true)
         setRefreshing(true);
         wait(2000).then(() => setRefreshing(false));
       }, []);
@@ -85,66 +78,10 @@ export default function Home({navigation}){
     
     // check if user already submit survey form
 
-    const CheckSubmitted = async() => {
-        await  axios.get(`http://197.243.14.102:4000/api/v1/surveys/${lang}`)
-        .then(res => {
-            
-            setSurveyGuest(res.data.surveys_guest)
-            setSurveyCustomer(res.data.surveys)
-            setIsSubmitted(false)
-
-        }).catch((error) => {
-            
-            // if(error.response.data.status===403){
-            //     console.log("Message: ",error.response.data.message);
-            // // setMsg(error.response.data.message)
-            // }else if(error.response.data.status===404){
-            //     console.log("Message: ",error.response.data.message);
-            // }else{
-                console.log(error);
-            // }
-            setIsSubmitted(true)
-        });
-        
-        // isSubmitted ? setShowModal(false) : setShowModal(true)
-        // setShowModal(true)
-    }
-
-
-
-    
-    const startSurvey = () => {
-        lang === 1 ? 
-        Alert.alert("Ikibazo cya nyuma", "Ugiye kuzuza nka: ", [
-            {
-                text: 'Umukiriya',
-                onPress: () => navigation.navigate('SurveyForm', {customer: 0, name: 'Customer Survey' })
-            },{
-                text: 'Umushyitsi',
-                onPress: () => navigation.navigate('SurveyForm', {customer: 1, name: 'Guest Survey' })
-            }
-        ])
-        :
-        Alert.alert("Just last step", "Are you going to fill our survey form as: ", [
-            {
-                text: 'Customer',
-                onPress: () => navigation.navigate('SurveyForm', {customer: 0, name: 'Customer Survey' })
-            },{
-                text: 'Guest',
-                onPress: () => navigation.navigate('SurveyForm', {customer: 1, name: 'Guest Survey' })
-            }
-        ])
-    }
-
-    // console.log("Device: ",Device.osBuildId);
     useEffect(() => {
-        CheckSubmitted()
-        isSubmitted ? setShowModal(false) : setShowModal(true)
         getLang()
-    }, [isSubmitted, lang]);
+    }, [lang]);
     
-console.log("is Modal show: ", showModal);
-
  if (!fontsLoaded) {
     return <><Text>Loading ...</Text></>;
   } else {
@@ -163,10 +100,6 @@ console.log("is Modal show: ", showModal);
                             <MaterialCommunityIcons name="bee-flower" size={50} color="#fff" style={{ paddingLeft: 23 }} />
                             <Text style={{color: '#fff', fontWeight: 'bold',padding:5, fontSize: 20}}>Ibihingwa</Text>
                         </View>
-                        {/* <Badge
-                            value={20}
-                            containerStyle={{ position: 'absolute'}}
-                        /> */}
                         
                     </TouchableOpacity>
 
@@ -175,11 +108,6 @@ console.log("is Modal show: ", showModal);
                             <MaterialCommunityIcons name="clipboard-list-outline" size={50} color="#fff" />
                             <Text style={{color: '#fff', fontWeight: 'bold',padding:5, fontSize: 20}}>Imiti</Text>
                         </View>
-                        {/* <Badge
-                        style={{backgroundColor: '#fff'}}
-                            value={15}
-                            containerStyle={{ position: 'absolute'}}
-                        /> */}
                     </TouchableOpacity>
 
                     </View>
@@ -196,10 +124,6 @@ console.log("is Modal show: ", showModal);
                             <MaterialCommunityIcons name="safe-square" size={50} color="#fff" style={{ paddingLeft: 20 }} />
                             <Text style={{color: '#fff', fontWeight: 'bold',padding:5, fontSize: 20}}>Ubwirinzi</Text>
                         </View>
-                        {/* <Badge
-                            value={3}
-                            containerStyle={{ position: 'absolute'}}
-                        /> */}
                     </TouchableOpacity>
                 </View>
             </>
@@ -235,10 +159,6 @@ console.log("is Modal show: ", showModal);
                             <MaterialCommunityIcons name="safe-square" size={50} color="#fff"  style={{ paddingLeft: 10 }}/>
                             <Text style={{color: '#fff', fontWeight: 'bold',padding:5, fontSize: 20}}>Safety</Text>
                         </View>
-                        {/* <Badge
-                            value={3}
-                            containerStyle={{ position: 'absolute'}}
-                        /> */}
                     </TouchableOpacity>
                 </View>
             </>
@@ -246,7 +166,6 @@ console.log("is Modal show: ", showModal);
 
 
             </ScrollView>
-            <OptionModal visible = {showModal} onPressContinue = {startSurvey} onClose={() => setShowModal(false)}/>
             
 
 

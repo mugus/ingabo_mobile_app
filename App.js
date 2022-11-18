@@ -20,12 +20,10 @@ import SafetyLabels from './screens/SafetyLabels';
 import SafetyApplication from './screens/SafetyApplication';
 import DianosisDetailScreen from './screens/DianosisDetailScreen';
 import Browser from './screens/Browser';
-import SurveyForm from './screens/components/SurveyForm';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Text, View, StatusBar, Platform, SafeAreaView,ScrollView, TouchableOpacity } from 'react-native';
 import { Storage } from 'expo-storage'
 
 
@@ -65,284 +63,6 @@ function App() {
   // connectionStatus ? console.log("Connected") : (<NoConnection />)
   return (
     <NavigationContainer>
-      { lang === 1 ?
-        <Stack.Navigator initialRouteName='LandingScreen'>
-        <Stack.Screen
-          name="LandingScreen"
-          component={LandingScreen} 
-          options={{headerShown : false}}
-          />
-         
-        <Stack.Screen
-          name="ProductScreen"
-          component={ProductScreen}
-          options={{
-            title: 'Imiti yacu',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="ContactSalesTeam"
-          component={ContactSalesTeam}
-          options={{
-            title: 'Contact',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-
-
-          <Stack.Screen
-          name="chooseLanguage"
-          component={chooseLanguage}
-          options={{headerShown : false}}
-          />
-        <Stack.Screen
-          name="ProductDetails"
-          component={ProductDetails}
-          options={{
-            title: 'Umuti',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          />
-        <Stack.Screen
-          name="DianosisScreen"
-          component={DianosisScreen}
-          options={{
-            title: 'Indwara',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          />
-        <Stack.Screen
-          name="CropsScreen"
-          component={CropsScreen}
-          options={{
-            title: 'Ibihingwa',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-           }} />
-          <Stack.Screen
-          name="SafetyScreen"
-          component={SafetyScreen} 
-          options={{
-            title: 'Ubwirinzi',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          />
-
-        <Stack.Screen
-          name="SafetyTransport"
-          component={SafetyTransport}
-          options={{
-            title: 'Ubwikorezi',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          />
-
-        <Stack.Screen
-          name="SafetyStorage"
-          component={SafetyStorage}
-          options={{
-            title: 'Ububiko',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          />
-
-        <Stack.Screen
-          name="SafetyLabels"
-          component={SafetyLabels}
-          options={{
-            title: 'Ibirango',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-
-        <Stack.Screen
-          name="SurveyForm"
-          component={SurveyForm}
-          options={{
-            title: 'Survey',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-
-
-        <Stack.Screen
-          name="SafetyApplication"
-          component={SafetyApplication}
-          options={{
-            title: 'Bikora bite',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
-
-
-        <Stack.Screen
-          name="DianosisDetailScreen"
-          component={DianosisDetailScreen}
-          options={{
-            title: 'Indwara',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          />
-        <Stack.Screen
-          name="Browser"
-          component={Browser}
-          options={{
-            title: 'Browser',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-          />
-        <Stack.Screen
-          name="Home"
-          options={{
-            title: 'Ahabanza',
-            headerStyle: {
-              backgroundColor: '#fff',
-              height: 10,
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}>
-            {/* add tab bottom nav */}
-          {() => (
-            <Tab.Navigator
-              initialRouteName = 'Ahabanza'
-              screenOptions = {{
-                "tabBarActiveTintColor": "white",
-                "tabBarInactiveTintColor": "black",
-                "tabBarActiveBackgroundColor": "#347464",
-                "tabBarInactiveBackgroundColor": "#eee",
-                "tabBarInactivefontSize": 12,
-                "tabBarStyle": [
-                  {
-                    "display": "flex",
-                  },
-                  null
-                ]
-              }}
-            >
-              <Tab.Screen name='Settings' component={SettingScreen}
-                options={{
-                  headerShown: false,
-                  tabBarIcon: ({size, color}) => <MaterialCommunityIcons name='account-settings' size={size} color={color}/>
-                }}
-              />
-
-              <Tab.Screen name='Ahabanza' component={HomeScreen}
-                options={{
-                  headerShown : false,
-                  tabBarIcon: ({size, color}) => <MaterialCommunityIcons name='home' size={size} color={color}/>
-                }}
-              />
-              
-              <Tab.Screen name='Ibitwerekeye' component={AboutScreen}
-                options={{
-                  headerShown : false,
-                  tabBarIcon: ({size, color}) => <MaterialCommunityIcons name='lightbulb-on' size={size} color={color}/>
-                }}
-              />
-            </Tab.Navigator>
-            )}
-            {/* end tab bottom nav */}
-
-        </Stack.Screen>
-      </Stack.Navigator>
-
-       : 
 
        <Stack.Navigator initialRouteName='LandingScreen'>
         <Stack.Screen
@@ -449,21 +169,6 @@ function App() {
           }}
           />
 
-        <Stack.Screen
-          name="SurveyForm"
-          component={SurveyForm}
-          options={{
-            title: 'Survey',
-            headerStyle: {
-              backgroundColor: '#fff',
-              right: 0
-            },
-            headerTintColor: '#347464',
-            headerTitleStyle: {
-              fontWeight: 'bold',
-            },
-          }}
-        />
 
         <Stack.Screen
           name="SafetyTransport"
@@ -578,13 +283,13 @@ function App() {
             {/* add tab bottom nav */}
           {() => (
             <Tab.Navigator
-              initialRouteName = 'My Home'
+              initialRouteName = 'Welcome'
               screenOptions = {{
                 "tabBarActiveTintColor": "white",
                 "tabBarInactiveTintColor": "black",
                 "tabBarActiveBackgroundColor": "#347464",
                 "tabBarInactiveBackgroundColor": "#eee",
-                "tabBarInactivefontSize": 12,
+                "tabBarInactivefontSize": 16,
                 "tabBarStyle": [
                   {
                     "display": "flex",
@@ -600,7 +305,7 @@ function App() {
                 }}
               />
 
-              <Tab.Screen name='My Home' component={HomeScreen}
+              <Tab.Screen name='Welcome' component={HomeScreen}
                 options={{
                   headerShown : false,
                   tabBarIcon: ({size, color}) => <MaterialCommunityIcons name='home' size={size} color={color}/>
@@ -619,8 +324,6 @@ function App() {
 
         </Stack.Screen>
       </Stack.Navigator>
-
-       }
       
     </NavigationContainer>
   );

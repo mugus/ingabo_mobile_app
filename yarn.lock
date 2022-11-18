@@ -1696,11 +1696,6 @@
   resolved "https://registry.yarnpkg.com/@react-native-community/netinfo/-/netinfo-8.2.0.tgz#0bcf2b618c3b0ab72bb5529df3e580af9e6ae96b"
   integrity sha512-mPMg9Uu2XeMX3tainvCWLhD9FZtdox3fcbPXJINuyFNgEQ2AUhGcoUT1dUpcFZrY4eXYiO9cckPhPHq9lWzSAA==
 
-"@react-native-picker/picker@2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-2.4.0.tgz#7ca2e01a3bdf854ee01ca752762ffa73c0e83313"
-  integrity sha512-duGZc3a8Qa21YPrA4U3oR9NAUzBA66FTjubGK2CodA6rNjiwN+xC32hOZ5unkf4qD3DqLWeoPjg3fYf54bVMjA==
-
 "@react-native/assets@1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@react-native/assets/-/assets-1.0.0.tgz#c6f9bf63d274bafc8e970628de24986b30a55c8e"
@@ -3310,7 +3305,7 @@ expo-sharing@^10.2.0:
   resolved "https://registry.yarnpkg.com/expo-sharing/-/expo-sharing-10.2.0.tgz#527a143d7365998ab77cb44a84b81c793e51dc4e"
   integrity sha512-IM5L5gNHHgIKlxxxv/uXPyw+N9zeHQBdDxtFgrTBlEU+Sx4/PwtBIb9hHmFHR7Hz+hDK2nxFpEEuYlvapkNd0Q==
 
-expo-splash-screen@~0.15.0:
+expo-splash-screen@~0.15.0, expo-splash-screen@~0.15.1:
   version "0.15.1"
   resolved "https://registry.yarnpkg.com/expo-splash-screen/-/expo-splash-screen-0.15.1.tgz#bdfb2434bda7fb1cde97e029fc7a791d7b3e3125"
   integrity sha512-Yvz6p/ig+cQp9c1PLSm1YshpNJXRp/xtxajfwPq2kampf61zA+xnoMk+J6YcNeXeIlqHysj3ND2tMhEEQjM/ow==

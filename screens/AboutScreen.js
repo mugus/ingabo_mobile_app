@@ -17,6 +17,7 @@ import {
     Roboto_900Black_Italic,
   } from '@expo-google-fonts/roboto';
   import { Storage } from 'expo-storage'
+  import color from "./layouts/color";
   const KEY = '@@KEY';
 
 
@@ -89,8 +90,8 @@ if (!fontsLoaded) {
 
                             <View style={{flex: 1, flexDirection: 'column', flexWrap: 'wrap', paddingTop: 25}}>
                                 <View style={{height: 350}}>
-                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center'}}>
-                                        <MaterialCommunityIcons name="gift" size={24} color="#000" /> POROMOSIYO
+                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center', color:color.APP_PRIMARY}}>
+                                        <MaterialCommunityIcons name="gift" size={24} /> POROMOSIYO
                                     </Text>
                                     <Text style={{paddingTop: 10,fontWeight: '500',fontSize: 16}}>
                                         Gushyiraho uburyo bworoshye bwo kwegereza abahinzi inyongeramusaruro
@@ -99,7 +100,7 @@ if (!fontsLoaded) {
                                     
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Radio Advert
+                                        Kwamamaza kuri Radio
                                     </Text>
                                     <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, paddingTop: 15}} />
 
@@ -114,69 +115,69 @@ if (!fontsLoaded) {
                                     <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, paddingTop: 15}} />
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Field Extension services
+                                        Serivisi yo kwagura umurima
                                     </Text>
                                     <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, paddingTop: 15}} />
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Free USSD application access for Farmer on Plant Health
+                                        USSD kubuntu kubuhinzi kubuzima bwibimera
                                     </Text>
                                     
                                 </View>
 
                                 <View style={{height: 300}}>
-                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center', textTransform: 'uppercase'}}>
-                                        <MaterialCommunityIcons name="school" size={24} color="#000" />Amahugurwa kuri ba AGRO-DEALERs
+                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center', textTransform: 'uppercase', color:color.APP_PRIMARY}}>
+                                        <MaterialCommunityIcons name="school" size={24}/>AMAHUGURWA KUBAJYANAMA BUBUHINZI
                                     </Text>
                                     <Text style={{paddingTop: 10,fontWeight: '500',fontSize: 16}}>
-                                        Guhugura abakora ubuhinzi ubuzima bwibihingwa no kubisesengura mu turere twabo
+                                        Guhugura abakora ubuhinzi kurwego rwumudugudu uko basuzuma ubizima bwibimera & gusesengura.
                                     </Text>
 
                                     
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Two Days Course
+                                        Amahugurwa
                                     </Text>
                                     <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, paddingTop: 15}} />
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Diagnostic Manual
+                                        Ibitabo byo Gusuzuma
                                     </Text>
                                     <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, paddingTop: 15}} />
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Follow-up Support
+                                        Gukurikirana umukiriya
                                     </Text>
                                     <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, paddingTop: 15}} />
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Android SmartPhone Application
+                                        Porogaramu ya Smartphone ya Android
                                     </Text>
                                     
                                 </View>
 
                                 <View style={{height: 250}}>
-                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center'}}>
-                                        <MaterialCommunityIcons name="door-open" size={24} color="#000" /> INPUT SUPPLY
+                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center', color:color.APP_PRIMARY}}>
+                                        <MaterialCommunityIcons name="door-open" size={24} /> UKO DUCURUZA  
                                     </Text>
                                     <Text style={{paddingTop: 10,fontWeight: '500',fontSize: 16}}>
-                                        Import high-quality agricultural inputs customized for plant health issues in Rwanda
+                                        Kuzana ibicuruzwa byujuje ubuziranenge byujuje ubuziranenge kandi bibereye ubutaka bw' u Rwanda
                                     </Text>
 
                                     
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Direct from manufacturer
+                                        Biturutse kubabikora(Ku ruganda)
                                     </Text>
                                     <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, paddingTop: 15}} />
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Appropriate pack sizes
+                                        Ingano zikwiye
                                     </Text>
                                     <View style={{ borderBottomColor: 'black', borderBottomWidth: 1, paddingTop: 15}} />
 
                                     <Text style={{paddingTop: 10,fontWeight: 'bold',fontSize: 16, textAlign: 'center'}}>
-                                        Delivered to the door
+                                        Kubigeza kubakiriya aho bari
                                     </Text>
                                     
                                 </View>
@@ -212,8 +213,8 @@ if (!fontsLoaded) {
 
                             <View style={{flex: 1, flexDirection: 'column', flexWrap: 'wrap', paddingTop: 25}}>
                                 <View style={{height: 350}}>
-                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center'}}>
-                                        <MaterialCommunityIcons name="gift" size={24} color="#000" /> PROMOTION
+                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center', color:color.APP_PRIMARY}}>
+                                        <MaterialCommunityIcons name="gift" size={24} /> PROMOTION
                                     </Text>
                                     <Text style={{paddingTop: 10,fontWeight: '500',fontSize: 16}}>
                                         Establish convenient distribution networks for farmers to access and use these inputs
@@ -248,8 +249,8 @@ if (!fontsLoaded) {
                                 </View>
 
                                 <View style={{height: 300}}>
-                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center'}}>
-                                        <MaterialCommunityIcons name="school" size={24} color="#000" /> AGRO-DEALER TRAINING
+                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center', color:color.APP_PRIMARY}}>
+                                        <MaterialCommunityIcons name="school" size={24}/> AGRO-DEALER TRAINING
                                     </Text>
                                     <Text style={{paddingTop: 10,fontWeight: '500',fontSize: 16}}>
                                         Train village level agricultural practitioners in plant health diagnosis and analysis
@@ -279,8 +280,8 @@ if (!fontsLoaded) {
                                 </View>
 
                                 <View style={{height: 250}}>
-                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center'}}>
-                                        <MaterialCommunityIcons name="door-open" size={24} color="#000" /> INPUT SUPPLY
+                                    <Text style={{fontSize: 18, fontWeight: '700', textAlign: 'center', color:color.APP_PRIMARY}}>
+                                        <MaterialCommunityIcons name="door-open" size={24} /> INPUT SUPPLY
                                     </Text>
                                     <Text style={{paddingTop: 10,fontWeight: '500',fontSize: 16}}>
                                         Import high-quality agricultural inputs customized for plant health issues in Rwanda
